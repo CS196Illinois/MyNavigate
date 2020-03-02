@@ -14,6 +14,8 @@
 
         <!-- Custom styles for this template -->
         <link href="css/crimeMap.css" rel="stylesheet">
+        <link href="css/toggleSwitch.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Raleway:800,600" rel="stylesheet">
 
     </head>
 
@@ -22,8 +24,8 @@
         <h1>Crime Map</h1>
 
         <p>
-            <label>Select your destination:</label>
-            <input type="text" id="destination"/>
+            <label id="destination-message">Select your destination:</label>
+            <input type="text" id="destination" placeholder="Search for destination"/>
             <input type="button" id="button" value="search" onclick=""/>
         </p>
 
@@ -49,6 +51,7 @@
 
         <!--Load the API from the specified URL * The async attribute allows the browser to render the page while the API loads * The key parameter will contain your own API key (which is not needed for this tutorial) * The callback parameter executes the
         initMap() function -->
+
         <script async="async" defer="defer" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCoPdq7VqBX2WU0ZRWjmLqtTVTe00qN3o&callback=initMap"></script>
 
     </body>
