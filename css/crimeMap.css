@@ -1,0 +1,35 @@
+h1 {
+    font-family: sans-serif;
+    font-size: 3rem;
+    line-height: 2rem;
+    text-decoration: underline;
+    color: #ef3243;
+}
+
+p {
+    font-family: sans-serif;
+    font-size: 2rem;
+    text-align: center;
+}
+
+input[type=text] {
+    height: 25px;
+    width: 150px;
+    position: relative;
+    top: -5px;
+}
+
+input[type=text]:focus {
+    border-color: #ef3243;
+}
+
+input[type=button] {
+    width: 60px;
+    position: relative;
+    top: -5px;
+}
+
+#map {
+    position: relative;
+    left: 18%;
+}
