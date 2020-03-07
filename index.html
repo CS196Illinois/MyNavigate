@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+
+        <title>Crime Map</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+        <!-- Custom styles for this template -->
+        <link href="css/crimeMap.css" rel="stylesheet">
+        <link href="css/toggleSwitch.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Raleway:800,600" rel="stylesheet">
+
+    </head>
+
+    <body id="page-top">
+
+        <h1>Crime Map</h1>
+
+        <p>
+            <label id="destination-message">Select your destination:</label>
+            <input type="text" id="destination" placeholder="Search for destination"/>
+            <input type="button" id="button" value="search" onclick=""/>
+        </p>
+
+        <!--The div element for the map -->
+        <div id="map" style="height: 700px; width: 60%"></div>
+        <script>
+            // Initialize and add the map
+            function initMap() {
+                // The location of Uluru
+                var uluru = {
+                    lat: 40.110334,
+                    lng: -88.227258
+                };
+                // The map, centered at Uluru
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 18,
+                    center: uluru
+                });
+                // The marker, positioned at Uluru
+                var marker = new google.maps.Marker({position: uluru, map: map});
+            }
+        </script>
+
+        <!--Load the API from the specified URL * The async attribute allows the browser to render the page while the API loads * The key parameter will contain your own API key (which is not needed for this tutorial) * The callback parameter executes the
+        initMap() function -->
+
+        <script async="async" defer="defer" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCoPdq7VqBX2WU0ZRWjmLqtTVTe00qN3o&callback=initMap"></script>
+
+    </body>
+
+</html>
