@@ -10,8 +10,8 @@
         <title>Crime Map</title>
 
         <!-- Custom styles for this template -->
+        <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/crimeMap.css" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Raleway:800,600" rel="stylesheet">
 
     </head>
 
@@ -21,15 +21,19 @@
 
         <div class="location">
             <div class="start-location">
-                <label id="destination-message">Select start point:</label>
-                <input type="text" id="destination" placeholder="Search for destination"/>
-                <input type="button" id="button" value="search" onclick=""/>
+                <form class="form-inline my-2 my-lg-0">
+                    <label id="destination-message">Select start point:</label>
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search for start point">
+                    <button class="btn btn-danger my-2 my-sm-0" type="submit">Search</button>
+                </form>
             </div>
 
             <div class="end-location">
-                <label id="destination-message">Select destination:</label>
-                <input type="text" id="destination" placeholder="Search for destination"/>
-                <input type="button" id="button" value="search" onclick=""/>
+                <form class="form-inline my-2 my-lg-0">
+                    <label id="destination-message">Select destination:</label>
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search for destination">
+                    <button class="btn btn-danger my-2 my-sm-0" type="submit">Search</button>
+                </form>
             </div>
         </div>
 
