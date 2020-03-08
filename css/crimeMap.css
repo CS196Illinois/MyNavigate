@@ -1,38 +1,43 @@
 body {
     background-color: rgb(250,250,255);
-    font-family: 'Raleway';
 }
 
 h1 {
-    font-size: 3rem;
-    line-height: 2rem;
-    text-decoration: underline;
+    font-family: 'Raleway';
     color: #ef3243;
 }
 
-p {
-    font-size: 2rem;
+.location {
+    font-family: 'Raleway';
+    font-size: 1.5rem;
     text-align: center;
+    position: relative;
+    top: -50px;
+    left: 35%;
 }
 
-input[type=text] {
-    height: 25px;
-    width: 150px;
+.start-location {
     position: relative;
-    top: -5px;
+    left: 10px;
+}
+
+.end-location {
+    position: relative;
+    top: 5px;
+}
+
+label {
+    padding-right: 10px;
 }
 
 input[type=text]:focus {
     border-color: #ef3243;
 }
 
-input[type=button] {
-    width: 60px;
+.map {
+    height: 745px;
+    width: 100%;
     position: relative;
-    top: -5px;
-}
-
-#map {
-    position: relative;
-    left: 18%;
+    top: -20px;
+    left: 0%;
 }
