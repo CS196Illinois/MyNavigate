@@ -6,13 +6,19 @@ body {
 h1 {
     font-size: 3rem;
     line-height: 2rem;
-    text-decoration: underline;
     color: #ef3243;
 }
 
-p {
-    font-size: 2rem;
+.location {
+    font-size: 1.5rem;
     text-align: center;
+    position: relative;
+    top: -65px;
+}
+
+.start-location {
+    position: relative;
+    left: 6px;
 }
 
 input[type=text] {
@@ -32,7 +38,10 @@ input[type=button] {
     top: -5px;
 }
 
-#map {
+.map {
+    height: 740px;
+    width: 100%;
     position: relative;
-    left: 18%;
+    top: -50px;
+    left: 0%;
 }
