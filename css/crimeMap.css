@@ -8,7 +8,7 @@ body {
     font-size: 1.5rem;
     text-align: center;
     position: relative;
-    top: -90px;
+    top: -100px;
     left: 35%;
 }
 
@@ -23,8 +23,8 @@ body {
 }
 
 .logo {
-    text-align: justify;
-    width: [120px];
+    position: relative;
+    top: -15px;
 }
 
 label {
@@ -36,8 +36,8 @@ input[type=text]:focus {
 }
 
 .map {
-    height: 700px;
+    height: 690px;
     width: 100%;
     position: relative;
-    top: -40px;
+    top: -80px;
 }
