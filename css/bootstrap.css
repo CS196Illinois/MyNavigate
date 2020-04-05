@@ -2804,18 +2804,6 @@ fieldset:disabled a.btn {
           box-shadow: 0 0 0 0.2rem rgba(81, 117, 154, 0.5);
 }
 
-.btn-darkblue {
-  color: #fff;
-  background-color: #19404D;
-  border-color: #09303D;
-}
-
-.btn-darkblue:hover {
-  color: #fff;
-  background-color: #16262D;
-  border-color: #04101D;
-}
-
 .btn-secondary {
   color: #fff;
   background-color: #8E8C84;
