@@ -18,6 +18,31 @@
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
         <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
 
+        <!-- Google autofill -->
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCoPdq7VqBX2WU0ZRWjmLqtTVTe00qN3o&libraries=places"></script>
+        <script>
+            function initialize() {
+                var input = document.getElementById('searchTextStart');
+                var autocomplete = new google.maps.places.Autocomplete(input);
+                google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                    var place1 = autocomplete.getPlace();
+                    document.getElementById('place1').value = place1.name;
+                    document.getElementById('place1Lat').value = place1.geometry.location.lat();
+                    document.getElementById('place1Lng').value = place1.geometry.location.lng();
+                });
+
+                var input = document.getElementById('searchTextDestination');
+                var autocomplete = new google.maps.places.Autocomplete(input);
+                google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                    var place2 = autocomplete.getPlace();
+                    document.getElementById('place2').value = place2.name;
+                    document.getElementById('place2Lat').value = place2.geometry.location.lat();
+                    document.getElementById('place2Lng').value = place2.geometry.location.lng();
+                });
+            }
+            google.maps.event.addDomListener(window, 'load', initialize);
+        </script>
+
         <!-- Import leaflet-locatecontrol information -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css"/>
@@ -36,16 +61,22 @@
                 <div class="start-location">
                     <form class="form-inline my-2 my-lg-0">
                         <label id="destination-message">Select start point:</label>
-                        <input class="form-control mr-sm-2" type="text" placeholder="Search for start point">
-                        <button class="btn btn-light my-2 my-sm-0" type="submit">Search</button>
+                        <input id="searchTextStart" class="form-control mr-sm-2" type="text" placeholder="Search for start point" autocomplete="on" runat="server">
+                        <!-- <button class="btn btn-light my-2 my-sm-0" type="submit">Search</button> -->
+                        <input type="hidden" id="place1" name="place1"/>
+                        <input type="hidden" id="place1Lat" name="place1Lat"/>
+                        <input type="hidden" id="place1Lng" name="place1Lng"/>
                     </form>
                 </div>
 
                 <div class="end-location">
                     <form class="form-inline my-2 my-lg-0">
                         <label id="destination-message">Select destination:</label>
-                        <input class="form-control mr-sm-2" type="text" placeholder="Search for destination">
-                        <button class="btn btn-light my-2 my-sm-0" type="submit">Search</button>
+                        <input id="searchTextDestination" class="form-control mr-sm-2" type="text" placeholder="Search for destination" autocomplete="on" runat="server">
+                        <!-- <button class="btn btn-light my-2 my-sm-0" type="submit">Search</button> -->
+                        <input type="hidden" id="place2" name="place2"/>
+                        <input type="hidden" id="place2Lat" name="place2Lat"/>
+                        <input type="hidden" id="place2Lng" name="place2Lng"/>
                     </form>
                 </div>
             </div>
