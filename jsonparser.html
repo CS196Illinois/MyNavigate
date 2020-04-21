@@ -1,0 +1,54 @@
+<!DOCTYPE html> 
+<html> 
+
+<head> 
+	<title>Read Text File</title> 
+</head> 
+
+<body> 
+    
+    <input type="file" name="inputfile"
+			id="inputfile"> 
+	<br> 
+
+     
+    
+	<script type="text/javascript"> 
+        
+        alert("Start")
+        var jsonText = "";
+        
+        document.getElementById('inputfile') 
+			.addEventListener('change', function() { 
+			
+			var fr=new FileReader(); 
+			fr.onload=function(){ 
+				alert("Done")
+			} 
+			alert(this.files[0])
+			fr.readAsText(this.files[0]); 
+		}) 
+        
+   /*this.files[0] = 'C:\MyNavigate\bigjson.txt';
+    // get the text from json file which is assumed to be already created
+    function getParseJson(filename) {
+
+        var fr = new FileReader(); 
+
+        fr.onload = function() { 
+            jsonText = fr.result;
+        }
+
+        fr.readAsText(this.files[0]); 
+        var crimeInfo = JSON.parse(jsonText);
+        alert(jsonText);
+        return crimeInfo;
+    }
+    
+    getParseJson('bigjson.txt');*/
+      
+
+	</script> 
+</body> 
+
+</html> 
