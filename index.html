@@ -134,20 +134,20 @@
             request.onreadystatechange = function() {
                 if (this.readyState === 4) {
                     // alerts and log-printing for convenience temporarily- must use this data properly
-                    alert("Working")
-                    alert(this.responseText)
+                    // alert("Working")
+                    // alert(this.responseText)
                     console.log('Status:', this.status);
                     console.log('Headers:', this.getAllResponseHeaders());
                     console.log('Body:', this.responseText);
                     toReturn = this.responseText;
-                    alert("OSRC end");
+                    // alert("OSRC end");
                     var toReturn = JSON.parse(this.responseText);
                     for (var i = 0; i < toReturn.incidents.length; i++) {
                         lat.push(toReturn.incidents[i].incident_latitude);
                         long.push(toReturn.incidents[i].incident_longitude);
                     }
-                    alert(long.length);
-                    alert(lat.length);
+                    // alert(long.length);
+                    // alert(lat.length);
                     for (var i = 0; i < lat.length; i++) {
                         marker = new L.marker([lat[i], long[i]]).addTo(map);
                     }
@@ -155,12 +155,12 @@
             };
 
             request.send();
-            alert(toReturn + "is toReturn");
+            // alert(toReturn + "is toReturn");
 
         }
 
         var value = sendRequest(url);
-        alert(value);
+        // alert(value);
 
     </script>
     <!-- 
