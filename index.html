@@ -108,12 +108,62 @@
         var popup = L.popup();
 
         function onMapClick(e) {
-            popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(mymap);
+            popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(map);
         }
 
         map.on('click', onMapClick);
 
+        // must enable changing the url depending on location and dates
+        var url = "https://api.crimeometer.com/v1/incidents/raw-data?lat=+30.3053&lon=-97.6790&distance=70000mi&datetime_ini=1940-04-20T00:00:00.000Z&datetime_end=2020-04-21T00:00:00.000Z";
+
+        var api_key = 'Qo7O5gfbY73c7INlcrTvQ2W9JN2QbwLBPTgbtMC0';
+        //var api_key = 'k3RAzKN1Ag14xTPlculT39RZb38LGgsG8n27ZycG';
+
+        function sendRequest(url) {
+            var lat = [];
+            var long = [];
+            // setting up XML request
+            var request = new XMLHttpRequest();
+            request.open('GET', url);
+            request.setRequestHeader('Content-Type', 'application/json');
+            request.setRequestHeader('x-api-key', api_key);
+
+            var toReturn = undefined;
+
+            // code to handle the response from the request
+            request.onreadystatechange = function() {
+                if (this.readyState === 4) {
+                    // alerts and log-printing for convenience temporarily- must use this data properly
+                    alert("Working")
+                    alert(this.responseText)
+                    console.log('Status:', this.status);
+                    console.log('Headers:', this.getAllResponseHeaders());
+                    console.log('Body:', this.responseText);
+                    toReturn = this.responseText;
+                    alert("OSRC end");
+                    var toReturn = JSON.parse(this.responseText);
+                    for (var i = 0; i < toReturn.incidents.length; i++) {
+                        lat.push(toReturn.incidents[i].incident_latitude);
+                        long.push(toReturn.incidents[i].incident_longitude);
+                    }
+                    alert(long.length);
+                    alert(lat.length);
+                    for (var i = 0; i < lat.length; i++) {
+                        marker = new L.marker([lat[i], long[i]]).addTo(map);
+                    }
+                }
+            };
+
+            request.send();
+            alert(toReturn + "is toReturn");
+
+        }
+
+        var value = sendRequest(url);
+        alert(value);
+
     </script>
+    <!-- 
     <script>
         var request = new XMLHttpRequest();
         var lat = [];
@@ -139,7 +189,7 @@
 		}
         request.send();
 
-    </script>
+    </script> -->
 
 </body>
 
