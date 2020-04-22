@@ -113,9 +113,21 @@
 
         map.on('click', onMapClick);
 
-        // must enable changing the url depending on location and dates
-        var url = "https://api.crimeometer.com/v1/incidents/raw-data?lat=+30.3053&lon=-97.6790&distance=70000mi&datetime_ini=1940-04-20T00:00:00.000Z&datetime_end=2020-04-21T00:00:00.000Z";
-
+    // must enable changing the url depending on location and dates
+    // Configure parameters for api request
+        var latstring = 30.3053;
+        var lonstring = -97.6790;
+        // Distance in miles
+        var distance = 70000;
+        // Offset of time before now in hours
+        var offset = 1000 * (1000*60*60);
+    // processing of parameters into request link
+        var d = new Date();
+        var datetime_end = d.toISOString();
+        var datetwo = new Date(d - offset);
+        var datetime_ini = datetwo.toISOString();
+        var url = "https://api.crimeometer.com/v1/incidents/raw-data?lat=" + latstring.toString() + "&lon=" + lonstring.toString() + "&distance=" 
+                + distance.toString() + "mi&datetime_ini=" + datetime_ini + "&datetime_end=" + datetime_end;
         var api_key = 'Qo7O5gfbY73c7INlcrTvQ2W9JN2QbwLBPTgbtMC0';
         //var api_key = 'k3RAzKN1Ag14xTPlculT39RZb38LGgsG8n27ZycG';
 
