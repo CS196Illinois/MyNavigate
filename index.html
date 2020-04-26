@@ -83,7 +83,6 @@
 
         <!--The div element for the map -->
         <div id="mapid"></div>
-
         <script>
             var map = L.map('mapid').setView([
                 40.1092101, -88.2294165
@@ -109,31 +108,8 @@
             }
 
             map.on('click', onMapClick);
-
-            //Code added by me
-            var circleToPolygon = require('circle-to-polygon');
-            var coordinates = [-88.2272, 40.1092]; //[lon, lat]
-            var radius = 10000;                           // in meters
-            var numberOfEdges = 32;                     //optional that defaults to 32
-
-            var point = circleToPolygon(coordinates, radius, numberOfEdges);
-
-            var myStyle = {
-                "color": "#ff7800",
-                "weight": 5,
-                "opacity": 0.65
-            };
-            L.geoJSON(point, {
-                style:myStyle
-            }).addTo(map);
-
-/*             var circle = L.circle([40.1092, -88.2272], {
-                color: 'red',
-                fillColor: '#f03',
-                fillOpacity: 0.5,
-                radius: 20
-            }).addTo(map); */
         </script>
+        <script src="bundle.js"></script>
     </body>
 
 </html>
