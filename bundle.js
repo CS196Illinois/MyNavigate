@@ -1,8 +1,17 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+/**
+ * Uses the Node.js package circle-to-polygon to create a GeoJSON that roughly approximates a circle 
+ * centered at a specific latitude and longitude
+ * @param circleToPolygon the module loaded by require
+ * @param coordinates represented by array [longitude, latitude]
+ * @param radius in meters
+ * @param numberofEdges polygon resembles more of a circle as this value increases
+ * In order to see the updates in the website, run: 'browserify main.js -o bundle.js' in the command line
+ */
 var circleToPolygon = require('circle-to-polygon');
-var coordinates = [-88.2272, 40.1092]; //[lon, lat]
-var radius = 20;                           // in meters
-var numberOfEdges = 1000000;                     //optional that defaults to 32
+var coordinates = [-88.2272, 40.1092];
+var radius = 20;
+var numberOfEdges = 1000000;
 
 var point = circleToPolygon(coordinates, radius, numberOfEdges);
 console.log(point.type);
