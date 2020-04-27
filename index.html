@@ -1,85 +1,1826 @@
 <html lang="en">
 
-    <head>
+<head>
 
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
 
-        <title>MyNavigate</title>
-        <link rel="icon" href="img/icon.png">
+    <title>MyNavigate</title>
+    <link rel="icon" href="img/icon.png">
 
-        <!-- Custom styles for this template -->
-        <link href="css/bootstrap.css" rel="stylesheet">
-        <link href="css/crimeMap.css" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/crimeMap.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap" rel="stylesheet">
 
-        <!-- Import map information -->
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
-        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+    <!-- Import map information -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
 
-        <!-- Import leaflet-locatecontrol information -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css"/>
-        <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+    <!-- Google autofill -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCoPdq7VqBX2WU0ZRWjmLqtTVTe00qN3o&libraries=places"></script>
+    <script>
+        function initialize() {
+            var input = document.getElementById('searchTextStart');
+            var autocomplete = new google.maps.places.Autocomplete(input);
+            google.maps.event.addListener(autocomplete, 'place_changed', function() {
+                var place1 = autocomplete.getPlace();
+                document.getElementById('place1').value = place1.name;
+                document.getElementById('place1Lat').value = place1.geometry.location.lat();
+                document.getElementById('place1Lng').value = place1.geometry.location.lng();
+            });
 
-    </head>
+            var input = document.getElementById('searchTextDestination');
+            var autocomplete = new google.maps.places.Autocomplete(input);
+            google.maps.event.addListener(autocomplete, 'place_changed', function() {
+                var place2 = autocomplete.getPlace();
+                document.getElementById('place2').value = place2.name;
+                document.getElementById('place2Lat').value = place2.geometry.location.lat();
+                document.getElementById('place2Lng').value = place2.geometry.location.lng();
+            });
+        }
+        google.maps.event.addDomListener(window, 'load', initialize);
 
-    <body id="page-top">
+    </script>
 
-        <h1>
-            <div class="logo">
-                <img src="img/logo.png" alt="logo"/>
+    <!-- Import leaflet-locatecontrol information -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+
+</head>
+
+<body id="page-top">
+
+    <h1>
+        <div class="logo">
+            <img src="img/logo.png" alt="logo" />
+        </div>
+
+        <div class="location">
+            <div class="start-location">
+                <form class="form-inline my-2 my-lg-0">
+                    <label id="destination-message">Select start point:</label>
+                    <input id="searchTextStart" class="form-control mr-sm-2" type="text" placeholder="Search for start point" autocomplete="on" runat="server">
+                    <!-- <button class="btn btn-light my-2 my-sm-0" type="submit">Search</button> -->
+                    <input type="hidden" id="place1" name="place1" />
+                    <input type="hidden" id="place1Lat" name="place1Lat" />
+                    <input type="hidden" id="place1Lng" name="place1Lng" />
+                </form>
             </div>
 
-            <div class="location">
-                <div class="start-location">
-                    <form class="form-inline my-2 my-lg-0">
-                        <label id="destination-message">Select start point:</label>
-                        <input class="form-control mr-sm-2" type="text" placeholder="Search for start point">
-                        <button class="btn btn-light my-2 my-sm-0" type="submit">Search</button>
-                    </form>
-                </div>
-
-                <div class="end-location">
-                    <form class="form-inline my-2 my-lg-0">
-                        <label id="destination-message">Select destination:</label>
-                        <input class="form-control mr-sm-2" type="text" placeholder="Search for destination">
-                        <button class="btn btn-light my-2 my-sm-0" type="submit">Search</button>
-                    </form>
-                </div>
+            <div class="end-location">
+                <form class="form-inline my-2 my-lg-0">
+                    <label id="destination-message">Select destination:</label>
+                    <input id="searchTextDestination" class="form-control mr-sm-2" type="text" placeholder="Search for destination" autocomplete="on" runat="server">
+                    <!-- <button class="btn btn-light my-2 my-sm-0" type="submit">Search</button> -->
+                    <input type="hidden" id="place2" name="place2" />
+                    <input type="hidden" id="place2Lat" name="place2Lat" />
+                    <input type="hidden" id="place2Lng" name="place2Lng" />
+                </form>
             </div>
-        </h1>
+        </div>
+    </h1>
 
-        <!--The div element for the map -->
-        <div id="mapid"></div>
-        <script>
-            var map = L.map('mapid').setView([
-                40.1092101, -88.2294165
-            ], 13);
+    <!--The div element for the map -->
+    <div id="mapid"></div>
+    <script>
+        var map = L.map('mapid').setView([
+            40.1092101, -88.2294165
+        ], 13);
 
-            L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-                maxZoom: 18,
-                id: 'mapbox/streets-v11',
-                tileSize: 512,
-                zoomOffset: -1,
-                accessToken: 'pk.eyJ1Ijoid2VsYnltIiwiYSI6ImNrOHhmZ2cyZzBqanEzbXJ6b3BpaHhicHIifQ.5osNmEEJ_7PkwM5ADpkayg'
-            }).addTo(map);
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 18,
+            id: 'mapbox/streets-v11',
+            tileSize: 512,
+            zoomOffset: -1,
+            accessToken: 'pk.eyJ1Ijoid2VsYnltIiwiYSI6ImNrOHhmZ2cyZzBqanEzbXJ6b3BpaHhicHIifQ.5osNmEEJ_7PkwM5ADpkayg'
+        }).addTo(map);
 
-            var lc = L.control.locate({setView: 'always'}).addTo(map);
+        var lc = L.control.locate({
+            setView: 'always'
+        }).addTo(map);
 
-            lc.start();
+        lc.start();
 
-            var popup = L.popup();
+        var popup = L.popup();
 
-            function onMapClick(e) {
-                popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(mymap);
+        function onMapClick(e) {
+            popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(map);
+        }
+
+        map.on('click', onMapClick);
+
+    // must enable changing the url depending on location and dates
+    // Configure parameters for api request
+        // union coordinates = 40.1092101, -88.2294165
+        var latstring = 40.1092;
+        var lonstring = -88.2294;
+            // Distance in miles
+            var distance = 7000;
+            // Offset of time before now in hours
+            var offset = 1000 * (1000*60*60);
+        // processing of parameters into request link
+            var d = new Date();
+            var datetime_end = d.toISOString();
+            var datetwo = new Date(d - offset);
+            var datetime_ini = datetwo.toISOString();
+            var url = "https://api.crimeometer.com/v1/incidents/raw-data?lat=" + latstring.toString() + "&lon=" + lonstring.toString() + "&distance=" 
+                    + distance.toString() + "mi&datetime_ini=" + datetime_ini + "&datetime_end=" + datetime_end;
+            var api_key = 'Qo7O5gfbY73c7INlcrTvQ2W9JN2QbwLBPTgbtMC0';
+            //var api_key = 'k3RAzKN1Ag14xTPlculT39RZb38LGgsG8n27ZycG';
+
+
+
+            var data = 
+    {
+       "total_incidents":31296519,
+       "total_pages":312966,
+       "incidents":[
+          {
+             "city_key":"BAL",
+             "incident_code":"a18876ab0d786c0c9ad2294060af514b",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Burglary/Breaking & Entering",
+             "incident_offense_code":"220",
+             "incident_offense_description":"Burglary/Breaking & Entering",
+             "incident_offense_detail_description":"Burglary/Breaking & Entering at 800 TYSON ST, MOUNT VERNON",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"BURGLARY",
+             "incident_source_name":"Baltimore_Police_Departments",
+             "incident_latitude":39.300397969,
+             "incident_longitude":-76.6194109677,
+             "incident_address":"800 TYSON ST, MOUNT VERNON"
+          },
+          {
+             "city_key":"BAL",
+             "incident_code":"aea8232478af67e4d15adc9872b3a1ec",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Motor Vehicle Theft",
+             "incident_offense_code":"240",
+             "incident_offense_description":"Motor Vehicle Theft",
+             "incident_offense_detail_description":"Motor Vehicle Theft at 0 WHEELER AVE, PENROSE/FAYETTE ST OUTREACH",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"AUTO THEFT",
+             "incident_source_name":"Baltimore_Police_Departments",
+             "incident_latitude":39.2885181821,
+             "incident_longitude":-76.6543196076,
+             "incident_address":"0 WHEELER AVE, PENROSE/FAYETTE ST OUTREACH"
+          },
+          {
+             "city_key":"DET",
+             "incident_code":"3348258-1301",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Assault Offenses",
+             "incident_offense_code":"13A",
+             "incident_offense_description":"Simple Assault",
+             "incident_offense_detail_description":"Simple Assault at Greenfield",
+             "incident_offense_crime_against":"Person",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"ASSAULT",
+             "incident_source_name":"Detroit_Police_Departments",
+             "incident_latitude":42.43905,
+             "incident_longitude":-83.21714,
+             "incident_address":"Greenfield"
+          },
+          {
+             "city_key":"DET",
+             "incident_code":"3348236-2900",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Kidnapping/Abduction",
+             "incident_offense_code":"100",
+             "incident_offense_description":"Kidnapping/Abduction",
+             "incident_offense_detail_description":"Kidnapping/Abduction at Greenfield",
+             "incident_offense_crime_against":"Person",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"DAMAGE TO PROPERTY",
+             "incident_source_name":"Detroit_Police_Departments",
+             "incident_latitude":42.43032,
+             "incident_longitude":-83.20737,
+             "incident_address":"Greenfield"
+          },
+          {
+             "city_key":"DAL",
+             "incident_code":"078648-2019-01",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Destruction/Damage/Vandalism of Property",
+             "incident_offense_code":"290",
+             "incident_offense_description":"Destruction/Damage/Vandalism of Property",
+             "incident_offense_detail_description":"Destruction/Damage/Vandalism of Property, CRIM MISCHIEF > OR EQUAL $100 < $750 at 7341 CHAUCER PL",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"DESTRUCTION/ DAMAGE/ VANDALISM OF PROPERTY",
+             "incident_source_name":"Dallas_Police_Departments",
+             "incident_latitude":32.659152,
+             "incident_longitude":-96.867197,
+             "incident_address":"7341 CHAUCER PL"
+          },
+          {
+             "city_key":"DAL",
+             "incident_code":"137334-2019-01",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"All Other Offenses",
+             "incident_offense_code":"90Z",
+             "incident_offense_description":"All Other Offenses",
+             "incident_offense_detail_description":"All Other Offenses, THEFT - PRELIMINARY INVESTIGATION at 3213 METROPOLITAN AVE",
+             "incident_offense_crime_against":"Person, Property, or Society",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"MISCELLANEOUS",
+             "incident_source_name":"Dallas_Police_Departments",
+             "incident_latitude":32.768738,
+             "incident_longitude":-96.756893,
+             "incident_address":"3213 METROPOLITAN AVE"
+          },
+          {
+             "city_key":"DAL",
+             "incident_code":"078631-2019-01",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"All Other Offenses",
+             "incident_offense_code":"90Z",
+             "incident_offense_description":"All Other Offenses",
+             "incident_offense_detail_description":"All Other Offenses, ABANDONED PROPERTY (NO OFFENSE) at 3000 MORRELL AVE",
+             "incident_offense_crime_against":"Person, Property, or Society",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"MISCELLANEOUS",
+             "incident_source_name":"Dallas_Police_Departments",
+             "incident_latitude":32.743786,
+             "incident_longitude":-96.783702,
+             "incident_address":"3000 MORRELL AVE"
+          },
+          {
+             "city_key":"DAL",
+             "incident_code":"106367-2019-01",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Fraud Offenses",
+             "incident_offense_code":"26A",
+             "incident_offense_description":"False Pretenses/Swindle/Confidence Game",
+             "incident_offense_detail_description":"False Pretenses/Swindle/Confidence Game, THEFT OF SERVICE > OR EQUAL $2,500 <$30K PC31.04(e4) at 1701 PAYNE ST",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"FRAUD OFFENSES",
+             "incident_source_name":"Dallas_Police_Departments",
+             "incident_latitude":32.791561,
+             "incident_longitude":-96.808476,
+             "incident_address":"1701 PAYNE ST"
+          },
+          {
+             "city_key":"SEA",
+             "incident_code":"914786443",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Fraud Offenses",
+             "incident_offense_code":"26A",
+             "incident_offense_description":"Identity Theft",
+             "incident_offense_detail_description":"Identity Theft at 1600 Block 18TH AVE NW",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"189 - IDENTITY THEFT",
+             "incident_source_name":"KingCounty_Metropolitan_Police_Departments",
+             "incident_latitude":47.5487702,
+             "incident_longitude":-122.0653371,
+             "incident_address":"1600 Block 18TH AVE NW"
+          },
+          {
+             "city_key":"SEA",
+             "incident_code":"914562828",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Assault Offenses",
+             "incident_offense_code":"13A",
+             "incident_offense_description":"Simple Assault",
+             "incident_offense_detail_description":"Simple Assault at 11700 Block 87TH AVE S",
+             "incident_offense_crime_against":"Person",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"112 - ASSAULT, SIMPLE",
+             "incident_source_name":"KingCounty_Metropolitan_Police_Departments",
+             "incident_latitude":47.496914,
+             "incident_longitude":-122.2233221,
+             "incident_address":"11700 Block 87TH AVE S"
+          },
+          {
+             "city_key":"FWT",
+             "incident_code":"190033810-90Z",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Drunkenness",
+             "incident_offense_code":"90E",
+             "incident_offense_description":"Drunkenness",
+             "incident_offense_detail_description":"Drunkenness in the 18 PARKING LOT/GARAGE at 900 FOCH ST",
+             "incident_offense_crime_against":"Society",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"PUBLIC INTOXICATION",
+             "incident_source_name":"FortWorth_Police_Departments",
+             "incident_latitude":32.7497210212389,
+             "incident_longitude":-97.35650738856046,
+             "incident_address":"900 FOCH ST"
+          },
+          {
+             "city_key":"NSH",
+             "incident_code":"20190308964_11",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"All Other Offenses",
+             "incident_offense_code":"90Z",
+             "incident_offense_description":"All Other Offenses",
+             "incident_offense_detail_description":"All Other Offenses in the RESIDENCE, HOME at 1400 ROSEBANK AVE",
+             "incident_offense_crime_against":"Person, Property, or Society",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"LOST PROPERTY",
+             "incident_source_name":"Nashville_Police_Departments",
+             "incident_latitude":36.191,
+             "incident_longitude":-86.709,
+             "incident_address":"1400 ROSEBANK AVE"
+          },
+          {
+             "city_key":"NSH",
+             "incident_code":"20190305487_11",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"All Other Offenses",
+             "incident_offense_code":"90Z",
+             "incident_offense_description":"All Other Offenses",
+             "incident_offense_detail_description":"All Other Offenses in the APARTMENT at 700 BELL RD",
+             "incident_offense_crime_against":"Person, Property, or Society",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"TRANSPORT",
+             "incident_source_name":"Nashville_Police_Departments",
+             "incident_latitude":36.06,
+             "incident_longitude":-86.641,
+             "incident_address":"700 BELL RD"
+          },
+          {
+             "city_key":"BAL",
+             "incident_code":"401a73c1fabe912da8688ee8354a97ef",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Motor Vehicle Theft",
+             "incident_offense_code":"240",
+             "incident_offense_description":"Motor Vehicle Theft",
+             "incident_offense_detail_description":"Motor Vehicle Theft at 0 WHEELER AVE, PENROSE/FAYETTE ST OUTREACH",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"AUTO THEFT",
+             "incident_source_name":"Baltimore_Police_Departments",
+             "incident_latitude":39.288518182104,
+             "incident_longitude":-76.654319607583,
+             "incident_address":"0 WHEELER AVE, PENROSE/FAYETTE ST OUTREACH"
+          },
+          {
+             "city_key":"CC2",
+             "incident_code":"914613976",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Driving Under the Influence",
+             "incident_offense_code":"90D",
+             "incident_offense_description":"Driving Under the Influence",
+             "incident_offense_detail_description":"Driving Under the Influence at 4900 Block VINCENNES ST",
+             "incident_offense_crime_against":"Society",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"DUI",
+             "incident_source_name":"CapeCoral_Police_Departments",
+             "incident_latitude":26.5606344,
+             "incident_longitude":-81.950032,
+             "incident_address":"4900 Block VINCENNES ST"
+          },
+          {
+             "city_key":"CC2",
+             "incident_code":"914658076",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Drug/Narcotic Offenses",
+             "incident_offense_code":"35A",
+             "incident_offense_description":"Drug/Narcotic Violations",
+             "incident_offense_detail_description":"Drug/Narcotic Violations at CAPE CORAL PKWY E & VINCENNES BLVD",
+             "incident_offense_crime_against":"Society",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"CANNABIS:POSS. NOT MORE THAN 20 GMS [893.03(1)(C)(7)]",
+             "incident_source_name":"CapeCoral_Police_Departments",
+             "incident_latitude":26.562694,
+             "incident_longitude":-81.950118,
+             "incident_address":"CAPE CORAL PKWY E & VINCENNES BLVD"
+          },
+          {
+             "city_key":"SMO",
+             "incident_code":"190047793",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Destruction/Damage/Vandalism of Property",
+             "incident_offense_code":"290",
+             "incident_offense_description":"Destruction/Damage/Vandalism of Property",
+             "incident_offense_detail_description":"Destruction/Damage/Vandalism of Property at 1500BLK 4TH ST",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"Vandalism",
+             "incident_source_name":"SantaMonica_Police_Departments",
+             "incident_latitude":34.0144041,
+             "incident_longitude":-118.49279,
+             "incident_address":"1500BLK 4TH ST"
+          },
+          {
+             "city_key":"SMO",
+             "incident_code":"190047789",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Larceny/Theft Offenses",
+             "incident_offense_code":"23F",
+             "incident_offense_description":"Theft From Motor Vehicle",
+             "incident_offense_detail_description":"Theft From Motor Vehicle at 1000BLK LINCOLN BLVD",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"Larceny - From Vehicle",
+             "incident_source_name":"SantaMonica_Police_Departments",
+             "incident_latitude":34.0242343,
+             "incident_longitude":-118.49692,
+             "incident_address":"1000BLK LINCOLN BLVD"
+          },
+          {
+             "city_key":"SMO",
+             "incident_code":"190047589",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"All Other Offenses",
+             "incident_offense_code":"90Z",
+             "incident_offense_description":"All Other Offenses",
+             "incident_offense_detail_description":"All Other Offenses at 2ND ST / COLORADO AVE",
+             "incident_offense_crime_against":"Person, Property, or Society",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"Municipal Code Violation",
+             "incident_source_name":"SantaMonica_Police_Departments",
+             "incident_latitude":34.0122073,
+             "incident_longitude":-118.49391,
+             "incident_address":"2ND ST / COLORADO AVE"
+          },
+          {
+             "city_key":"DEN",
+             "incident_code":"20196003728230800",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Larceny/Theft Offenses",
+             "incident_offense_code":"23D",
+             "incident_offense_description":"Theft From Building",
+             "incident_offense_detail_description":"Theft From Building at 98 N SPRUCE ST lowry-field",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"larceny",
+             "incident_source_name":"Denver_Police_Departments",
+             "incident_latitude":39.7220589,
+             "incident_longitude":-104.8945082,
+             "incident_address":"98 N SPRUCE ST"
+          },
+          {
+             "city_key":"AUS",
+             "incident_code":"20195016356",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Fraud Offenses",
+             "incident_offense_code":"26A",
+             "incident_offense_description":"Identity Theft",
+             "incident_offense_detail_description":"Identity Theft at 3401 RED RIVER ST",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"IDENTITY THEFT",
+             "incident_source_name":"Austin_Police_Department_Crime_Reports",
+             "incident_latitude":30.29278757,
+             "incident_longitude":-97.72518396,
+             "incident_address":"3401 RED RIVER ST"
+          },
+          {
+             "city_key":"AUS",
+             "incident_code":"20195016780",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Assault Offenses",
+             "incident_offense_code":"13A",
+             "incident_offense_description":"Intimidation",
+             "incident_offense_detail_description":"Intimidation at 1652 RUTLAND DR",
+             "incident_offense_crime_against":"Person",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"HARASSMENT",
+             "incident_source_name":"Austin_Police_Department_Crime_Reports",
+             "incident_latitude":30.37395454,
+             "incident_longitude":-97.71201994,
+             "incident_address":"1652 RUTLAND DR"
+          },
+          {
+             "city_key":"GPM",
+             "incident_code":"914637658",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Fraud Offenses",
+             "incident_offense_code":"26A",
+             "incident_offense_description":"False Pretenses/Swindle/Confidence Game",
+             "incident_offense_detail_description":"False Pretenses/Swindle/Confidence Game at 7000 Block W FALL GARDEN WAY",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"FRAUD OTHER",
+             "incident_source_name":"PimaCounty_Metropolitan_Police_Departments",
+             "incident_latitude":32.1134,
+             "incident_longitude":-111.115,
+             "incident_address":"7000 Block W FALL GARDEN WAY"
+          },
+          {
+             "city_key":"BAL",
+             "incident_code":"21bab1a6d1c74f3a0e8e6e1068ad4f60",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Burglary/Breaking & Entering",
+             "incident_offense_code":"220",
+             "incident_offense_description":"Burglary/Breaking & Entering",
+             "incident_offense_detail_description":"Burglary/Breaking & Entering at 800 TYSON ST, MOUNT VERNON",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"BURGLARY",
+             "incident_source_name":"Baltimore_Police_Departments",
+             "incident_latitude":39.300397968997,
+             "incident_longitude":-76.619410967677,
+             "incident_address":"800 TYSON ST, MOUNT VERNON"
+          },
+          {
+             "city_key":"PHX",
+             "incident_code":"201900000684078",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Assault Offenses",
+             "incident_offense_code":"13A",
+             "incident_offense_description":"Aggravated Assault",
+             "incident_offense_detail_description":"Aggravated Assault at 3000 NORTH 16TH ST, 85016",
+             "incident_offense_crime_against":"Person",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"AGGRAVATED ASSAULT",
+             "incident_source_name":"Phoenix_Police_Departments",
+             "incident_latitude":33.5037859,
+             "incident_longitude":-112.0475816,
+             "incident_address":"3000 NORTH 16TH ST, 85016"
+          },
+          {
+             "city_key":"PHX",
+             "incident_code":"201900000672720",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Larceny/Theft Offenses",
+             "incident_offense_code":"23H",
+             "incident_offense_description":"All Other Larceny",
+             "incident_offense_detail_description":"All Other Larceny at 3000 EAST CLARENDON AVE, 85016",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"LARCENY-THEFT",
+             "incident_source_name":"Phoenix_Police_Departments",
+             "incident_latitude":33.4913313,
+             "incident_longitude":-112.0237513,
+             "incident_address":"3000 EAST CLARENDON AVE, 85016"
+          },
+          {
+             "city_key":"PHX",
+             "incident_code":"201900000672961",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Larceny/Theft Offenses",
+             "incident_offense_code":"23H",
+             "incident_offense_description":"All Other Larceny",
+             "incident_offense_detail_description":"All Other Larceny at 5800 SOUTH 30TH LN, 85041",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"LARCENY-THEFT",
+             "incident_source_name":"Phoenix_Police_Departments",
+             "incident_latitude":33.3802874,
+             "incident_longitude":-112.1239705,
+             "incident_address":"5800 SOUTH 30TH LN, 85041"
+          },
+          {
+             "city_key":"PHX",
+             "incident_code":"201900000670795",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Drug/Narcotic Offenses",
+             "incident_offense_code":"35A",
+             "incident_offense_description":"Drug/Narcotic Violations",
+             "incident_offense_detail_description":"Drug/Narcotic Violations at 3400 WEST CAMPBELL AVE, 85017",
+             "incident_offense_crime_against":"Society",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"DRUG OFFENSE",
+             "incident_source_name":"Phoenix_Police_Departments",
+             "incident_latitude":33.5022035,
+             "incident_longitude":-112.1645735,
+             "incident_address":"3400 WEST CAMPBELL AVE, 85017"
+          },
+          {
+             "city_key":"PHX",
+             "incident_code":"201900000680231",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Motor Vehicle Theft",
+             "incident_offense_code":"240",
+             "incident_offense_description":"Motor Vehicle Theft",
+             "incident_offense_detail_description":"Motor Vehicle Theft at 100 NORTH 55TH ST, 85034",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"MOTOR VEHICLE THEFT",
+             "incident_source_name":"Phoenix_Police_Departments",
+             "incident_latitude":33.57791705,
+             "incident_longitude":-111.962626486395,
+             "incident_address":"100 NORTH 55TH ST, 85034"
+          },
+          {
+             "city_key":"NYC",
+             "incident_code":"773424955-44",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Destruction/Damage/Vandalism of Property",
+             "incident_offense_code":"290",
+             "incident_offense_description":"Destruction/Damage/Vandalism of Property",
+             "incident_offense_detail_description":"Destruction/Damage/Vandalism of Property at STREET, BRONX",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"CRIMINAL MISCHIEF & RELATED OF",
+             "incident_source_name":"NewYork_Police_Department",
+             "incident_latitude":40.8300131,
+             "incident_longitude":-73.918112,
+             "incident_address":"STREET, BRONX"
+          },
+          {
+             "city_key":"NYC",
+             "incident_code":"259873005-46",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Larceny/Theft Offenses",
+             "incident_offense_code":"23A",
+             "incident_offense_description":"Theft of Motor Vehicle Parts or Accessories",
+             "incident_offense_detail_description":"Theft of Motor Vehicle Parts or Accessories at STREET, BRONX",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"PETIT LARCENY",
+             "incident_source_name":"NewYork_Police_Department",
+             "incident_latitude":40.8467732,
+             "incident_longitude":-73.911871,
+             "incident_address":"STREET, BRONX"
+          },
+          {
+             "city_key":"NYC",
+             "incident_code":"113251528-62",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"To Review",
+             "incident_offense_code":"To Review",
+             "incident_offense_description":"Other",
+             "incident_offense_detail_description":"Other at RESIDENCE - APT. HOUSE, BROOKLYN",
+             "incident_offense_crime_against":"To Review",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"CRIMINAL MISCHIEF & RELATED OF",
+             "incident_source_name":"NewYork_Police_Department",
+             "incident_latitude":40.6192254,
+             "incident_longitude":-73.991943,
+             "incident_address":"RESIDENCE - APT. HOUSE, BROOKLYN"
+          },
+          {
+             "city_key":"NYC",
+             "incident_code":"121449984-103",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Destruction/Damage/Vandalism of Property",
+             "incident_offense_code":"290",
+             "incident_offense_description":"Destruction/Damage/Vandalism of Property",
+             "incident_offense_detail_description":"Destruction/Damage/Vandalism of Property at STREET, QUEENS",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"CRIMINAL MISCHIEF & RELATED OF",
+             "incident_source_name":"NewYork_Police_Department",
+             "incident_latitude":40.7070295,
+             "incident_longitude":-73.790274,
+             "incident_address":"STREET, QUEENS"
+          },
+          {
+             "city_key":"MEM",
+             "incident_code":"914448380",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Destruction/Damage/Vandalism of Property",
+             "incident_offense_code":"290",
+             "incident_offense_description":"Destruction/Damage/Vandalism of Property",
+             "incident_offense_detail_description":"Destruction/Damage/Vandalism of Property at 5300 Block SANTA MONICA CV",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"Property Crime",
+             "incident_source_name":"Memphis_Police_Departments",
+             "incident_latitude":35.0023,
+             "incident_longitude":-90.0064,
+             "incident_address":"5300 Block SANTA MONICA CV"
+          },
+          {
+             "city_key":"IND",
+             "incident_code":"914824695",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Larceny/Theft Offenses",
+             "incident_offense_code":"23H",
+             "incident_offense_description":"All Other Larceny",
+             "incident_offense_detail_description":"All Other Larceny at 7800 Block TIMBER HILL DR DR",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"Theft",
+             "incident_source_name":"Indianapolis_Police_Departments",
+             "incident_latitude":39.6519,
+             "incident_longitude":-86.1951,
+             "incident_address":"7800 Block TIMBER HILL DR DR"
+          },
+          {
+             "city_key":"BOS",
+             "incident_code":"I192033447-01109",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Fraud Offenses",
+             "incident_offense_code":"26E",
+             "incident_offense_description":"Wire Fraud",
+             "incident_offense_detail_description":"Wire Fraud at METROPOLITAN AVE",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"Fraud",
+             "incident_source_name":"Boston_Police_Departments",
+             "incident_latitude":42.2599014,
+             "incident_longitude":-71.115363,
+             "incident_address":"METROPOLITAN AVE"
+          },
+          {
+             "city_key":"SEA",
+             "incident_code":"20190000904394",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Motor Vehicle Theft",
+             "incident_offense_code":"240",
+             "incident_offense_description":"Motor Vehicle Theft",
+             "incident_offense_detail_description":"Motor Vehicle Theft at BALLARD SOUTH",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"CAR PROWL",
+             "incident_source_name":"Seattle_Police_Department",
+             "incident_latitude":47.6776737,
+             "incident_longitude":-122.42219,
+             "incident_address":"BALLARD SOUTH"
+          },
+          {
+             "city_key":"ATL",
+             "incident_code":"191111802",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Burglary/Breaking & Entering",
+             "incident_offense_code":"220",
+             "incident_offense_description":"Burglary/Breaking & Entering",
+             "incident_offense_detail_description":"Burglary/Breaking & Entering at 220 26TH ST NW, Brookwood",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"BURGLARY-RESIDENCE",
+             "incident_source_name":"Atlanta_Police_Department",
+             "incident_latitude":33.80312,
+             "incident_longitude":-84.4011,
+             "incident_address":"220 26TH ST NW, Brookwood"
+          },
+          {
+             "city_key":"ATL",
+             "incident_code":"191110484",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Burglary/Breaking & Entering",
+             "incident_offense_code":"220",
+             "incident_offense_description":"Burglary/Breaking & Entering",
+             "incident_offense_detail_description":"Burglary/Breaking & Entering at 180 WALKER ST SW, Castleberry Hill",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"BURGLARY-NONRES",
+             "incident_source_name":"Atlanta_Police_Department",
+             "incident_latitude":33.74964,
+             "incident_longitude":-84.40132,
+             "incident_address":"180 WALKER ST SW, Castleberry Hill"
+          },
+          {
+             "city_key":"ATL",
+             "incident_code":"191110670",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Assault Offenses",
+             "incident_offense_code":"13A",
+             "incident_offense_description":"Aggravated Assault",
+             "incident_offense_detail_description":"Aggravated Assault at 29 STAFFORD ST NW, Hunter Hills",
+             "incident_offense_crime_against":"Person",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"AGG ASSAULT",
+             "incident_source_name":"Atlanta_Police_Department",
+             "incident_latitude":33.75571,
+             "incident_longitude":-84.42575,
+             "incident_address":"29 STAFFORD ST NW, Hunter Hills"
+          },
+          {
+             "city_key":"ATL",
+             "incident_code":"191110141",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Motor Vehicle Theft",
+             "incident_offense_code":"240",
+             "incident_offense_description":"Motor Vehicle Theft",
+             "incident_offense_detail_description":"Motor Vehicle Theft at 1176 HUFF RD, Blandtown",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"AUTO THEFT",
+             "incident_source_name":"Atlanta_Police_Department",
+             "incident_latitude":33.80058,
+             "incident_longitude":-84.42561,
+             "incident_address":"1176 HUFF RD, Blandtown"
+          },
+          {
+             "city_key":"ATL",
+             "incident_code":"191110699",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Larceny/Theft Offenses",
+             "incident_offense_code":"23H",
+             "incident_offense_description":"All Other Larceny",
+             "incident_offense_detail_description":"All Other Larceny at 1801 HOWELL MILL RD NW, Berkeley Park",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"LARCENY-NON VEHICLE",
+             "incident_source_name":"Atlanta_Police_Department",
+             "incident_latitude":33.80388,
+             "incident_longitude":-84.41278,
+             "incident_address":"1801 HOWELL MILL RD NW, Berkeley Park"
+          },
+          {
+             "city_key":"ATL",
+             "incident_code":"191110975",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Motor Vehicle Theft",
+             "incident_offense_code":"240",
+             "incident_offense_description":"Motor Vehicle Theft",
+             "incident_offense_detail_description":"Motor Vehicle Theft at 500 10TH ST NE @BELTLINE BUSINESS, \\N",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"AUTO THEFT",
+             "incident_source_name":"Atlanta_Police_Department",
+             "incident_latitude":33.78223,
+             "incident_longitude":-84.36922,
+             "incident_address":"500 10TH ST NE @BELTLINE BUSINESS, \\N"
+          },
+          {
+             "city_key":"ATL",
+             "incident_code":"191110611",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Motor Vehicle Theft",
+             "incident_offense_code":"240",
+             "incident_offense_description":"Motor Vehicle Theft",
+             "incident_offense_detail_description":"Motor Vehicle Theft at 1251 FAIRVIEW RD NE, Druid Hills",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"AUTO THEFT",
+             "incident_source_name":"Atlanta_Police_Department",
+             "incident_latitude":33.772,
+             "incident_longitude":-84.3464,
+             "incident_address":"1251 FAIRVIEW RD NE, Druid Hills"
+          },
+          {
+             "city_key":"ATL",
+             "incident_code":"191110668",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Larceny/Theft Offenses",
+             "incident_offense_code":"23F",
+             "incident_offense_description":"Theft From Motor Vehicle",
+             "incident_offense_detail_description":"Theft From Motor Vehicle at 1760 MEMORIAL DR SE, Kirkwood",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"LARCENY-FROM VEHICLE",
+             "incident_source_name":"Atlanta_Police_Department",
+             "incident_latitude":33.74752,
+             "incident_longitude":-84.32999,
+             "incident_address":"1760 MEMORIAL DR SE, Kirkwood"
+          },
+          {
+             "city_key":"ATL",
+             "incident_code":"191111537",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Larceny/Theft Offenses",
+             "incident_offense_code":"23H",
+             "incident_offense_description":"All Other Larceny",
+             "incident_offense_detail_description":"All Other Larceny at 3755 PEACHTREE RD NE, Ridgedale Park",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"LARCENY-NON VEHICLE",
+             "incident_source_name":"Atlanta_Police_Department",
+             "incident_latitude":33.85649,
+             "incident_longitude":-84.34973,
+             "incident_address":"3755 PEACHTREE RD NE, Ridgedale Park"
+          },
+          {
+             "city_key":"DAL",
+             "incident_code":"078680-2019-01",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Assault Offenses",
+             "incident_offense_code":"13A",
+             "incident_offense_description":"Simple Assault",
+             "incident_offense_detail_description":"Simple Assault, ASSAULT -BODILY INJURY ONLY at 7152 FAIR OAKS AVE",
+             "incident_offense_crime_against":"Person",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"ASSAULT OFFENSES",
+             "incident_source_name":"Dallas_Police_Departments",
+             "incident_latitude":32.873098,
+             "incident_longitude":-96.757877,
+             "incident_address":"7152 FAIR OAKS AVE"
+          },
+          {
+             "city_key":"DAL",
+             "incident_code":"078847-2019-01",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Larceny/Theft Offenses",
+             "incident_offense_code":"23A",
+             "incident_offense_description":"All Other Larceny",
+             "incident_offense_detail_description":"All Other Larceny, BMV at 400 OLIVE ST",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"LARCENY/ THEFT OFFENSES",
+             "incident_source_name":"Dallas_Police_Departments",
+             "incident_latitude":32.784474,
+             "incident_longitude":-96.794717,
+             "incident_address":"400 OLIVE ST"
+          },
+          {
+             "city_key":"DAL",
+             "incident_code":"078819-2019-01",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Destruction/Damage/Vandalism of Property",
+             "incident_offense_code":"290",
+             "incident_offense_description":"Destruction/Damage/Vandalism of Property",
+             "incident_offense_detail_description":"Destruction/Damage/Vandalism of Property, CRIM MISCHIEF > OR EQUAL $100 < $750 at 2961 MARJORIE AVE",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"DESTRUCTION/ DAMAGE/ VANDALISM OF PROPERTY",
+             "incident_source_name":"Dallas_Police_Departments",
+             "incident_latitude":32.700629,
+             "incident_longitude":-96.77326,
+             "incident_address":"2961 MARJORIE AVE"
+          },
+          {
+             "city_key":"DET",
+             "incident_code":"3348236-2306",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Kidnapping/Abduction",
+             "incident_offense_code":"100",
+             "incident_offense_description":"Kidnapping/Abduction",
+             "incident_offense_detail_description":"Kidnapping/Abduction at Greenfield",
+             "incident_offense_crime_against":"Person",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"LARCENY",
+             "incident_source_name":"Detroit_Police_Departments",
+             "incident_latitude":42.43032,
+             "incident_longitude":-83.20737,
+             "incident_address":"Greenfield"
+          },
+          {
+             "city_key":"DET",
+             "incident_code":"3348607-2305",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"To Review",
+             "incident_offense_code":"To Review",
+             "incident_offense_description":"Other",
+             "incident_offense_detail_description":"Other at Midtown",
+             "incident_offense_crime_against":"To Review",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"LARCENY",
+             "incident_source_name":"Detroit_Police_Departments",
+             "incident_latitude":42.34039,
+             "incident_longitude":-83.06304,
+             "incident_address":"Midtown"
+          },
+          {
+             "city_key":"FWT",
+             "incident_code":"190033810-90E",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Drunkenness",
+             "incident_offense_code":"90E",
+             "incident_offense_description":"Drunkenness",
+             "incident_offense_detail_description":"Drunkenness in the 18 PARKING LOT/GARAGE at 900 FOCH ST",
+             "incident_offense_crime_against":"Society",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"PUBLIC INTOXICATION",
+             "incident_source_name":"FortWorth_Police_Departments",
+             "incident_latitude":32.7497210212389,
+             "incident_longitude":-97.35650738856046,
+             "incident_address":"900 FOCH ST"
+          },
+          {
+             "city_key":"NSH",
+             "incident_code":"20190305683_11",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Assault Offenses",
+             "incident_offense_code":"13A",
+             "incident_offense_description":"Aggravated Assault",
+             "incident_offense_detail_description":"Aggravated Assault in the RESIDENCE, HOME at 100 STIRTON RD",
+             "incident_offense_crime_against":"Person",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"ASSAULT- FEAR OF BODILY INJURY",
+             "incident_source_name":"Nashville_Police_Departments",
+             "incident_latitude":36.122,
+             "incident_longitude":-86.73,
+             "incident_address":"100 STIRTON RD"
+          },
+          {
+             "city_key":"NSH",
+             "incident_code":"20190372034_11",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Fraud Offenses",
+             "incident_offense_code":"26A",
+             "incident_offense_description":"False Pretenses/Swindle/Confidence Game",
+             "incident_offense_detail_description":"False Pretenses/Swindle/Confidence Game in the RESIDENCE, HOME at DOUBLETREE LN",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"FRAUD - CONFIDENCE GAME",
+             "incident_source_name":"Nashville_Police_Departments",
+             "incident_latitude":36.09,
+             "incident_longitude":-86.64,
+             "incident_address":"DOUBLETREE LN"
+          },
+          {
+             "city_key":"NSH",
+             "incident_code":"20190306380_11",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"All Other Offenses",
+             "incident_offense_code":"90Z",
+             "incident_offense_description":"All Other Offenses",
+             "incident_offense_detail_description":"All Other Offenses in the HOTEL, MOTEL, ETC. at 100 4TH AVE S",
+             "incident_offense_crime_against":"Person, Property, or Society",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"POLICE INQUIRY",
+             "incident_source_name":"Nashville_Police_Departments",
+             "incident_latitude":36.16,
+             "incident_longitude":-86.777,
+             "incident_address":"100 4TH AVE S"
+          },
+          {
+             "city_key":"NSH",
+             "incident_code":"20190309082_11",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Burglary/Breaking & Entering",
+             "incident_offense_code":"220",
+             "incident_offense_description":"Burglary/Breaking & Entering",
+             "incident_offense_detail_description":"Burglary/Breaking & Entering in the OUTBUILDING at FERNBANK DR",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"BURGL - NO FORCED ENTRY-NONRESID",
+             "incident_source_name":"Nashville_Police_Departments",
+             "incident_latitude":36.24,
+             "incident_longitude":-86.71,
+             "incident_address":"FERNBANK DR"
+          },
+          {
+             "city_key":"NSH",
+             "incident_code":"20190407837_11",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"All Other Offenses",
+             "incident_offense_code":"90Z",
+             "incident_offense_description":"All Other Offenses",
+             "incident_offense_detail_description":"All Other Offenses in the Auto Dealership New/Used at 1500 N GALLATIN PIKE",
+             "incident_offense_crime_against":"Person, Property, or Society",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"LOST PROPERTY",
+             "incident_source_name":"Nashville_Police_Departments",
+             "incident_latitude":36.287,
+             "incident_longitude":-86.706,
+             "incident_address":"1500 N GALLATIN PIKE"
+          },
+          {
+             "city_key":"NSH",
+             "incident_code":"20190307009_11",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Larceny/Theft Offenses",
+             "incident_offense_code":"23A",
+             "incident_offense_description":"Shoplifting",
+             "incident_offense_detail_description":"Shoplifting in the DEPARTMENT, DISCOUNT STORE at W TRINITY LN",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"SHOPLIFTING",
+             "incident_source_name":"Nashville_Police_Departments",
+             "incident_latitude":36.21,
+             "incident_longitude":-86.78,
+             "incident_address":"W TRINITY LN"
+          },
+          {
+             "city_key":"NSH",
+             "incident_code":"20190334673_11",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"All Other Offenses",
+             "incident_offense_code":"90Z",
+             "incident_offense_description":"All Other Offenses",
+             "incident_offense_detail_description":"All Other Offenses in the GOVERNMENT, PUBLIC BUILDING at 400 2ND AVE N",
+             "incident_offense_crime_against":"Person, Property, or Society",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"POLICE INQUIRY",
+             "incident_source_name":"Nashville_Police_Departments",
+             "incident_latitude":36.168,
+             "incident_longitude":-86.779,
+             "incident_address":"400 2ND AVE N"
+          },
+          {
+             "city_key":"NSH",
+             "incident_code":"20190315689_11",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Larceny/Theft Offenses",
+             "incident_offense_code":"23A",
+             "incident_offense_description":"All Other Larceny",
+             "incident_offense_detail_description":"All Other Larceny in the CONSTRUCTION SITE at ARROGATE DR",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"LARCENY - (FREE TEXT)",
+             "incident_source_name":"Nashville_Police_Departments",
+             "incident_latitude":36.06,
+             "incident_longitude":-86.61,
+             "incident_address":"ARROGATE DR"
+          },
+          {
+             "city_key":"BAL",
+             "incident_code":"023133d523e77d183cc83bb56d80e336",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Burglary/Breaking & Entering",
+             "incident_offense_code":"220",
+             "incident_offense_description":"Burglary/Breaking & Entering",
+             "incident_offense_detail_description":"Burglary/Breaking & Entering at 2600 COLE ST, MILL HILL",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"BURGLARY",
+             "incident_source_name":"Baltimore_Police_Departments",
+             "incident_latitude":39.2781560206,
+             "incident_longitude":-76.6563233375,
+             "incident_address":"2600 COLE ST, MILL HILL"
+          },
+          {
+             "city_key":"BAL",
+             "incident_code":"e8197d64bb5bccd031efea5a4c53c55a",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Motor Vehicle Theft",
+             "incident_offense_code":"240",
+             "incident_offense_description":"Motor Vehicle Theft",
+             "incident_offense_detail_description":"Motor Vehicle Theft at 3500 AILSA AVE, WALTHERSON",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"AUTO THEFT",
+             "incident_source_name":"Baltimore_Police_Departments",
+             "incident_latitude":39.3429967002,
+             "incident_longitude":-76.5604407194,
+             "incident_address":"3500 AILSA AVE, WALTHERSON"
+          },
+          {
+             "city_key":"SLE",
+             "incident_code":"914553443",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Larceny/Theft Offenses",
+             "incident_offense_code":"23H",
+             "incident_offense_description":"All Other Larceny",
+             "incident_offense_detail_description":"All Other Larceny at 1200 Block VINCA ST SE",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"ALL OTHER LARCENY",
+             "incident_source_name":"SalemOR_Police_Departments",
+             "incident_latitude":44.9149982,
+             "incident_longitude":-122.96029,
+             "incident_address":"1200 Block VINCA ST SE"
+          },
+          {
+             "city_key":"DEN",
+             "incident_code":"2019256864110200",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"\"\"",
+             "incident_offense_code":"\"\"",
+             "incident_offense_description":"\"\"",
+             "incident_offense_detail_description":"\"\"",
+             "incident_offense_crime_against":"\"\"",
+             "incident_offense_action":"\"\"",
+             "incident_source_original_type":"sexual-assault",
+             "incident_source_name":"Denver_Police_Departments",
+             "incident_latitude":0,
+             "incident_longitude":0,
+             "incident_address":"\"\""
+          },
+          {
+             "city_key":"DEN",
+             "incident_code":"20196003592230500",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Larceny/Theft Offenses",
+             "incident_offense_code":"23F",
+             "incident_offense_description":"Theft From Motor Vehicle",
+             "incident_offense_detail_description":"Theft From Motor Vehicle at 3896 N XAVIER ST berkeley",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"theft-from-motor-vehicle",
+             "incident_source_name":"Denver_Police_Departments",
+             "incident_latitude":39.7709829,
+             "incident_longitude":-105.0494398,
+             "incident_address":"3896 N XAVIER ST"
+          },
+          {
+             "city_key":"SMO",
+             "incident_code":"190047787",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Drug/Narcotic Offenses",
+             "incident_offense_code":"35B",
+             "incident_offense_description":"Drug Equipment Violations",
+             "incident_offense_detail_description":"Drug Equipment Violations at 1600BLK CLOVERFIELD BLVD",
+             "incident_offense_crime_against":"Society",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"Possess Drug Paraphernalia",
+             "incident_source_name":"SantaMonica_Police_Departments",
+             "incident_latitude":34.0277977,
+             "incident_longitude":-118.47308,
+             "incident_address":"1600BLK CLOVERFIELD BLVD"
+          },
+          {
+             "city_key":"SMO",
+             "incident_code":"190047821",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"All Other Offenses",
+             "incident_offense_code":"90Z",
+             "incident_offense_description":"All Other Offenses",
+             "incident_offense_detail_description":"All Other Offenses at 1800BLK 12TH ST",
+             "incident_offense_crime_against":"Person, Property, or Society",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"Runaway",
+             "incident_source_name":"SantaMonica_Police_Departments",
+             "incident_latitude":34.0162947,
+             "incident_longitude":-118.48028,
+             "incident_address":"1800BLK 12TH ST"
+          },
+          {
+             "city_key":"SMO",
+             "incident_code":"190047640",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Assault Offenses",
+             "incident_offense_code":"13B",
+             "incident_offense_description":"Simple Assault",
+             "incident_offense_detail_description":"Simple Assault at 500BLK OLYMPIC BLVD W",
+             "incident_offense_crime_against":"Person",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"Simple Assault",
+             "incident_source_name":"SantaMonica_Police_Departments",
+             "incident_latitude":34.0130735,
+             "incident_longitude":-118.48941,
+             "incident_address":"500BLK OLYMPIC BLVD W"
+          },
+          {
+             "city_key":"SMO",
+             "incident_code":"190047767",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Assault Offenses",
+             "incident_offense_code":"13B",
+             "incident_offense_description":"Simple Assault",
+             "incident_offense_detail_description":"Simple Assault at 1400BLK 3RD STREET PROM",
+             "incident_offense_crime_against":"Person",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"Simple Assault",
+             "incident_source_name":"SantaMonica_Police_Departments",
+             "incident_latitude":34.0149807,
+             "incident_longitude":-118.4953,
+             "incident_address":"1400BLK 3RD STREET PROM"
+          },
+          {
+             "city_key":"SMO",
+             "incident_code":"190049701",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Larceny/Theft Offenses",
+             "incident_offense_code":"23D",
+             "incident_offense_description":"Theft From Building",
+             "incident_offense_detail_description":"Theft From Building at 800BLK ASHLAND AVE",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"Larceny - From Building",
+             "incident_source_name":"SantaMonica_Police_Departments",
+             "incident_latitude":34.0052106,
+             "incident_longitude":-118.47303,
+             "incident_address":"800BLK ASHLAND AVE"
+          },
+          {
+             "city_key":"CC2",
+             "incident_code":"914583220",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Assault Offenses",
+             "incident_offense_code":"13B",
+             "incident_offense_description":"Simple Assault",
+             "incident_offense_detail_description":"Simple Assault at 2100 Block SE 6TH LN",
+             "incident_offense_crime_against":"Person",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"BATTERY INTENTIONALLY STRIKE/TOUCH ANOTHER PERSON ANGST WILL",
+             "incident_source_name":"CapeCoral_Police_Departments",
+             "incident_latitude":26.6402709,
+             "incident_longitude":-81.92848,
+             "incident_address":"2100 Block SE 6TH LN"
+          },
+          {
+             "city_key":"CC2",
+             "incident_code":"915459925",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Drug/Narcotic Offenses",
+             "incident_offense_code":"35A",
+             "incident_offense_description":"Drug/Narcotic Violations",
+             "incident_offense_detail_description":"Drug/Narcotic Violations at SE 23RD AVE & SE 27TH ST",
+             "incident_offense_crime_against":"Society",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"CANNABIS:POSS. NOT MORE THAN 20 GMS [893.03(1)(C)(7)]",
+             "incident_source_name":"CapeCoral_Police_Departments",
+             "incident_latitude":26.603631,
+             "incident_longitude":-81.922261,
+             "incident_address":"SE 23RD AVE & SE 27TH ST"
+          },
+          {
+             "city_key":"PHX",
+             "incident_code":"201900000672041",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Drug/Narcotic Offenses",
+             "incident_offense_code":"35A",
+             "incident_offense_description":"Drug/Narcotic Violations",
+             "incident_offense_detail_description":"Drug/Narcotic Violations at 2500 WEST VAN BUREN ST, 85009",
+             "incident_offense_crime_against":"Society",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"DRUG OFFENSE",
+             "incident_source_name":"Phoenix_Police_Departments",
+             "incident_latitude":33.4511655,
+             "incident_longitude":-112.1115695,
+             "incident_address":"2500 WEST VAN BUREN ST, 85009"
+          },
+          {
+             "city_key":"IND",
+             "incident_code":"914429009",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Disorderly Conduct",
+             "incident_offense_code":"90C",
+             "incident_offense_description":"Disorderly Conduct",
+             "incident_offense_detail_description":"Disorderly Conduct at 9300 Block E 40TH ST 311",
+             "incident_offense_crime_against":"Society",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"Domestic offense",
+             "incident_source_name":"Indianapolis_Police_Departments",
+             "incident_latitude":39.8305,
+             "incident_longitude":-86.0037,
+             "incident_address":"9300 Block E 40TH ST 311"
+          },
+          {
+             "city_key":"SEA",
+             "incident_code":"20190000904366",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Motor Vehicle Theft",
+             "incident_offense_code":"240",
+             "incident_offense_description":"Motor Vehicle Theft",
+             "incident_offense_detail_description":"Motor Vehicle Theft at QUEEN ANNE",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"CAR PROWL",
+             "incident_source_name":"Seattle_Police_Department",
+             "incident_latitude":47.6375437,
+             "incident_longitude":-122.3929,
+             "incident_address":"QUEEN ANNE"
+          },
+          {
+             "city_key":"SEA",
+             "incident_code":"20190000904416",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Motor Vehicle Theft",
+             "incident_offense_code":"240",
+             "incident_offense_description":"Motor Vehicle Theft",
+             "incident_offense_detail_description":"Motor Vehicle Theft at DOWNTOWN COMMERCIAL",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"CAR PROWL",
+             "incident_source_name":"Seattle_Police_Department",
+             "incident_latitude":47.6054117,
+             "incident_longitude":-122.35304,
+             "incident_address":"DOWNTOWN COMMERCIAL"
+          },
+          {
+             "city_key":"ATL",
+             "incident_code":"191110501",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Larceny/Theft Offenses",
+             "incident_offense_code":"23F",
+             "incident_offense_description":"Theft From Motor Vehicle",
+             "incident_offense_detail_description":"Theft From Motor Vehicle at 583 CULBERSON ST SW, West End",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"LARCENY-FROM VEHICLE",
+             "incident_source_name":"Atlanta_Police_Department",
+             "incident_latitude":33.73924,
+             "incident_longitude":-84.4225,
+             "incident_address":"583 CULBERSON ST SW, West End"
+          },
+          {
+             "city_key":"ATL",
+             "incident_code":"191111478",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Motor Vehicle Theft",
+             "incident_offense_code":"240",
+             "incident_offense_description":"Motor Vehicle Theft",
+             "incident_offense_detail_description":"Motor Vehicle Theft at 1642 LEONA ST NW, Berkeley Park",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"AUTO THEFT",
+             "incident_source_name":"Atlanta_Police_Department",
+             "incident_latitude":33.79982,
+             "incident_longitude":-84.4099,
+             "incident_address":"1642 LEONA ST NW, Berkeley Park"
+          },
+          {
+             "city_key":"ATL",
+             "incident_code":"191111555",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Motor Vehicle Theft",
+             "incident_offense_code":"240",
+             "incident_offense_description":"Motor Vehicle Theft",
+             "incident_offense_detail_description":"Motor Vehicle Theft at 1040 HUFF RD NW, Blandtown",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"AUTO THEFT",
+             "incident_source_name":"Atlanta_Police_Department",
+             "incident_latitude":33.78949,
+             "incident_longitude":-84.42125,
+             "incident_address":"1040 HUFF RD NW, Blandtown"
+          },
+          {
+             "city_key":"ATL",
+             "incident_code":"191111839",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Assault Offenses",
+             "incident_offense_code":"13A",
+             "incident_offense_description":"Aggravated Assault",
+             "incident_offense_detail_description":"Aggravated Assault at 2296 EWING ST SW, Fairburn",
+             "incident_offense_crime_against":"Person",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"AGG ASSAULT",
+             "incident_source_name":"Atlanta_Police_Department",
+             "incident_latitude":33.69162,
+             "incident_longitude":-84.51949,
+             "incident_address":"2296 EWING ST SW, Fairburn"
+          },
+          {
+             "city_key":"ATL",
+             "incident_code":"191110608",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Larceny/Theft Offenses",
+             "incident_offense_code":"23F",
+             "incident_offense_description":"Theft From Motor Vehicle",
+             "incident_offense_detail_description":"Theft From Motor Vehicle at 812 PARSONS ST SW , Atlanta University Center",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"LARCENY-FROM VEHICLE",
+             "incident_source_name":"Atlanta_Police_Department",
+             "incident_latitude":33.75087,
+             "incident_longitude":-84.41444,
+             "incident_address":"812 PARSONS ST SW , Atlanta University Center"
+          },
+          {
+             "city_key":"ATL",
+             "incident_code":"191111290",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Larceny/Theft Offenses",
+             "incident_offense_code":"23H",
+             "incident_offense_description":"All Other Larceny",
+             "incident_offense_detail_description":"All Other Larceny at 185 MONTAG CIR NE, Inman Park",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"LARCENY-NON VEHICLE",
+             "incident_source_name":"Atlanta_Police_Department",
+             "incident_latitude":33.76013,
+             "incident_longitude":-84.36218,
+             "incident_address":"185 MONTAG CIR NE, Inman Park"
+          },
+          {
+             "city_key":"ATL",
+             "incident_code":"191110064",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Larceny/Theft Offenses",
+             "incident_offense_code":"23F",
+             "incident_offense_description":"Theft From Motor Vehicle",
+             "incident_offense_detail_description":"Theft From Motor Vehicle at 1402 N HIGHLAND AVE NE, Morningside/Lenox Park",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"LARCENY-FROM VEHICLE",
+             "incident_source_name":"Atlanta_Police_Department",
+             "incident_latitude":33.79282,
+             "incident_longitude":-84.35257,
+             "incident_address":"1402 N HIGHLAND AVE NE, Morningside/Lenox Park"
+          },
+          {
+             "city_key":"ATL",
+             "incident_code":"191101311",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Burglary/Breaking & Entering",
+             "incident_offense_code":"220",
+             "incident_offense_description":"Burglary/Breaking & Entering",
+             "incident_offense_detail_description":"Burglary/Breaking & Entering at 2002 PHILLIPS DR SE, Thomasville Heights",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"BURGLARY-RESIDENCE",
+             "incident_source_name":"Atlanta_Police_Department",
+             "incident_latitude":33.69919,
+             "incident_longitude":-84.35352,
+             "incident_address":"2002 PHILLIPS DR SE, Thomasville Heights"
+          },
+          {
+             "city_key":"ATL",
+             "incident_code":"191111524",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Robbery",
+             "incident_offense_code":"120",
+             "incident_offense_description":"Robbery",
+             "incident_offense_detail_description":"Robbery at 254 BELTLINE SW, West End",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"ROBBERY-PEDESTRIAN",
+             "incident_source_name":"Atlanta_Police_Department",
+             "incident_latitude":33.7333,
+             "incident_longitude":-84.42527,
+             "incident_address":"254 BELTLINE SW, West End"
+          },
+          {
+             "city_key":"ATL",
+             "incident_code":"191111052",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Motor Vehicle Theft",
+             "incident_offense_code":"240",
+             "incident_offense_description":"Motor Vehicle Theft",
+             "incident_offense_detail_description":"Motor Vehicle Theft at 1108 EDGEFIELD DR SW, Oakland City",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"AUTO THEFT",
+             "incident_source_name":"Atlanta_Police_Department",
+             "incident_latitude":33.7248,
+             "incident_longitude":-84.42947,
+             "incident_address":"1108 EDGEFIELD DR SW, Oakland City"
+          },
+          {
+             "city_key":"ATL",
+             "incident_code":"191111386",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Larceny/Theft Offenses",
+             "incident_offense_code":"23F",
+             "incident_offense_description":"Theft From Motor Vehicle",
+             "incident_offense_detail_description":"Theft From Motor Vehicle at 1985 HOWELL MILL RD NW, Channing Valley",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"LARCENY-FROM VEHICLE",
+             "incident_source_name":"Atlanta_Police_Department",
+             "incident_latitude":33.80888,
+             "incident_longitude":-84.41259,
+             "incident_address":"1985 HOWELL MILL RD NW, Channing Valley"
+          },
+          {
+             "city_key":"NYC",
+             "incident_code":"751233298-44",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Larceny/Theft Offenses",
+             "incident_offense_code":"23A",
+             "incident_offense_description":"Theft of Motor Vehicle Parts or Accessories",
+             "incident_offense_detail_description":"Theft of Motor Vehicle Parts or Accessories at STREET, BRONX",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"PETIT LARCENY",
+             "incident_source_name":"NewYork_Police_Department",
+             "incident_latitude":40.8309962,
+             "incident_longitude":-73.922895,
+             "incident_address":"STREET, BRONX"
+          },
+          {
+             "city_key":"NYC",
+             "incident_code":"238691995-106",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Assault Offenses",
+             "incident_offense_code":"13A",
+             "incident_offense_description":"Intimidation",
+             "incident_offense_detail_description":"Intimidation at RESIDENCE-HOUSE, QUEENS",
+             "incident_offense_crime_against":"Person",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"HARRASSMENT 2",
+             "incident_source_name":"NewYork_Police_Department",
+             "incident_latitude":40.6693512,
+             "incident_longitude":-73.851581,
+             "incident_address":"RESIDENCE-HOUSE, QUEENS"
+          },
+          {
+             "city_key":"NYC",
+             "incident_code":"861629694-34",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Robbery",
+             "incident_offense_code":"120",
+             "incident_offense_description":"Robbery",
+             "incident_offense_detail_description":"Robbery at RESIDENCE - APT. HOUSE, MANHATTAN",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"ROBBERY",
+             "incident_source_name":"NewYork_Police_Department",
+             "incident_latitude":40.8567275,
+             "incident_longitude":-73.930908,
+             "incident_address":"RESIDENCE - APT. HOUSE, MANHATTAN"
+          },
+          {
+             "city_key":"NYC",
+             "incident_code":"919530345-52",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Larceny/Theft Offenses",
+             "incident_offense_code":"23A",
+             "incident_offense_description":"Theft From Motor Vehicle",
+             "incident_offense_detail_description":"Theft From Motor Vehicle at STREET, BRONX",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"GRAND LARCENY",
+             "incident_source_name":"NewYork_Police_Department",
+             "incident_latitude":40.8870891,
+             "incident_longitude":-73.867785,
+             "incident_address":"STREET, BRONX"
+          },
+          {
+             "city_key":"BAL",
+             "incident_code":"766d9da5f6031836fa6ac7995df75203",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Motor Vehicle Theft",
+             "incident_offense_code":"240",
+             "incident_offense_description":"Motor Vehicle Theft",
+             "incident_offense_detail_description":"Motor Vehicle Theft at 0 WHEELER AVE, PENROSE/FAYETTE ST OUTREACH",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"AUTO THEFT",
+             "incident_source_name":"Baltimore_Police_Departments",
+             "incident_latitude":39,
+             "incident_longitude":-77,
+             "incident_address":"0 WHEELER AVE, PENROSE/FAYETTE ST OUTREACH"
+          },
+          {
+             "city_key":"SFO",
+             "incident_code":"79631471000",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"All Other Offenses",
+             "incident_offense_code":"90Z",
+             "incident_offense_description":"All Other Offenses",
+             "incident_offense_detail_description":"All Other Offenses at KANSAS ST \\ MARIPOSA ST",
+             "incident_offense_crime_against":"Person, Property, or Society",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"Lost Property",
+             "incident_source_name":"SanFrancisco_Police_Departments",
+             "incident_latitude":37.7634451,
+             "incident_longitude":-122.40341,
+             "incident_address":"KANSAS ST \\ MARIPOSA ST"
+          },
+          {
+             "city_key":"SFO",
+             "incident_code":"79306406374",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Larceny/Theft Offenses",
+             "incident_offense_code":"23H",
+             "incident_offense_description":"All Other Larceny",
+             "incident_offense_detail_description":"All Other Larceny at 18TH ST \\ CASTRO ST",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"Larceny Theft - Other",
+             "incident_source_name":"SanFrancisco_Police_Departments",
+             "incident_latitude":37.7608889,
+             "incident_longitude":-122.435,
+             "incident_address":"18TH ST \\ CASTRO ST"
+          },
+          {
+             "city_key":"BOS",
+             "incident_code":"I192030417-03205",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"All Other Offenses",
+             "incident_offense_code":"90Z",
+             "incident_offense_description":"All Other Offenses",
+             "incident_offense_detail_description":"All Other Offenses at HEWINS ST",
+             "incident_offense_crime_against":"Person, Property, or Society",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"License Plate Related Incidents",
+             "incident_source_name":"Boston_Police_Departments",
+             "incident_latitude":42.3030105,
+             "incident_longitude":-71.08183,
+             "incident_address":"HEWINS ST"
+          },
+          {
+             "city_key":"MEM",
+             "incident_code":"914876299",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Larceny/Theft Offenses",
+             "incident_offense_code":"23F",
+             "incident_offense_description":"Theft From Motor Vehicle",
+             "incident_offense_detail_description":"Theft From Motor Vehicle at 1100 Block E BROOKS RD",
+             "incident_offense_crime_against":"Property",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"Theft from Vehicle",
+             "incident_source_name":"Memphis_Police_Departments",
+             "incident_latitude":35.0631,
+             "incident_longitude":-90.0626,
+             "incident_address":"1100 Block E BROOKS RD"
+          },
+          {
+             "city_key":"CHI",
+             "incident_code":"11661615",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Weapon Law Violations",
+             "incident_offense_code":"520",
+             "incident_offense_description":"Weapon Law Violations",
+             "incident_offense_detail_description":"Weapon Law Violations UNLAWFUL POSS OF HANDGUN in the RESIDENTIAL YARD (FRONT/BACK) at 042XX S CAMPBELL AVE",
+             "incident_offense_crime_against":"Society",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"WEAPONS VIOLATION",
+             "incident_source_name":"Chicago_Police_Departments",
+             "incident_latitude":41.816869798,
+             "incident_longitude":-87.687142611,
+             "incident_address":"042XX S CAMPBELL AVE"
+          },
+          {
+             "city_key":"CHI",
+             "incident_code":"11671148",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"Sex Offenses",
+             "incident_offense_code":"N/A",
+             "incident_offense_description":"Sexual Assault",
+             "incident_offense_detail_description":"Sexual Assault NON-AGGRAVATED in the RESIDENCE at 050XX W MONROE ST",
+             "incident_offense_crime_against":"Person",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"CRIM SEXUAL ASSAULT",
+             "incident_source_name":"Chicago_Police_Departments",
+             "incident_latitude":41.879424049,
+             "incident_longitude":-87.751596296,
+             "incident_address":"050XX W MONROE ST"
+          },
+          {
+             "city_key":"DAL",
+             "incident_code":"078667-2019-01",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"All Other Offenses",
+             "incident_offense_code":"90Z",
+             "incident_offense_description":"All Other Offenses",
+             "incident_offense_detail_description":"All Other Offenses, TRAF VIO -DUTY ON STRIKE UNATTENDED VEH > OR EQUAL $200 at 10723 COMPOSITE DR",
+             "incident_offense_crime_against":"Person, Property, or Society",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"TRAFFIC VIOLATION - HAZARDOUS",
+             "incident_source_name":"Dallas_Police_Departments",
+             "incident_latitude":32.876259,
+             "incident_longitude":-96.894394,
+             "incident_address":"10723 COMPOSITE DR"
+          },
+          {
+             "city_key":"DAL",
+             "incident_code":"079825-2019-01",
+             "incident_date":"2019-04-21T00:00:00.000Z",
+             "incident_offense":"All Other Offenses",
+             "incident_offense_code":"90Z",
+             "incident_offense_description":"All Other Offenses",
+             "incident_offense_detail_description":"All Other Offenses, RECOVERED OUT OF TOWN STOLEN VEHICLE (NO OFFENSE) at 2510 CHERRY VALLEY BLVD",
+             "incident_offense_crime_against":"Person, Property, or Society",
+             "incident_offense_action":"C",
+             "incident_source_original_type":"MISCELLANEOUS",
+             "incident_source_name":"Dallas_Police_Departments",
+             "incident_latitude":32.64395,
+             "incident_longitude":-96.782546,
+             "incident_address":"2510 CHERRY VALLEY BLVD"
+          }
+       ]
+    };
+        
+        
+        
+        
+        
+        
+
+        function sendRequest(url) {
+            var lat = [];
+            var long = [];
+            // setting up XML request
+            var request = new XMLHttpRequest();
+            request.open('GET', url);
+            request.setRequestHeader('Content-Type', 'application/json');
+            request.setRequestHeader('x-api-key', api_key);
+
+            var toReturn = undefined;
+
+            // code to handle the response from the request
+            request.onreadystatechange = function() {
+                if (this.readyState === 4) {
+                    // alerts and log-printing for convenience temporarily- must use this data properly
+                    // alert("Working")
+                    // alert(this.responseText)
+                    console.log('Status:', this.status);
+                    console.log('Headers:', this.getAllResponseHeaders());
+                    console.log('Body:', this.responseText);
+                    toReturn = this.responseText;
+                    // alert("OSRC end");
+                    var toReturn = JSON.parse(this.responseText);
+                    for (var i = 0; i < toReturn.incidents.length; i++) {
+                        lat.push(toReturn.incidents[i].incident_latitude);
+                        long.push(toReturn.incidents[i].incident_longitude);
+                    }
+                    // alert(long.length);
+                    // alert(lat.length);
+                    for (var i = 0; i < lat.length; i++) {
+                        marker = new L.marker([lat[i], long[i]]).addTo(map);
+                    }
+                }
+            };
+
+            request.send();
+            // alert(toReturn + "is toReturn");
+
+        }
+
+        //var value = sendRequest(url);
+        // alert(value);
+        
+
+    </script>
+    <!-- 
+    <script>
+        var request = new XMLHttpRequest();
+        var lat = [];
+        var long = [];
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.setRequestHeader('x-api-key', 'k3RAzKN1Ag14xTPlculT39RZb38LGgsG8n27ZycG');
+        request.open('GET', 'https://api.crimeometer.com/v1/incidents/raw-data?lat=+30.3053&lon=-97.6790&distance=10mi&datetime_ini=2019-04-20T00:00:00.000Z&datetime_end=2019-04-21T00:00:00.000Z&page=1');
+        request.onreadystatechange = function() {
+            if (this.readyState === 4) {
+                console.log('Status:', this.status);
+                console.log('Headers:', this.getAllResponseHeaders());
+                console.log('Body:', this.responseText);
+                var jsonresponse = JSON.parse(this.responseText);
+                for (var i = 0; i < jsonresponse.incidents.length; i++) {
+                    lat.push(jsonresponse.incidents[i].incident_latitude);
+                    long.push(jsonresponse.incidents[i].incident_longitude);
+                }
             }
+        };
+        for (var i = 0; i < lat.length; i++) {
+			marker = new L.marker([lat[i], long[i]])
+				.addTo(map);
+		}
+        request.send();
 
-            map.on('click', onMapClick);
-        </script>
+    </script> -->
 
-    </body>
+</body>
 
 </html>
