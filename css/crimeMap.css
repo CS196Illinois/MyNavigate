@@ -3,6 +3,16 @@ body {
     overflow: hidden;
 }
 
+.description {
+    font-family: 'Raleway', sans-serif;
+    color: white;
+    font-size: 1rem;
+    word-wrap: break-word;
+    text-align: center;
+    position: relative;
+    top: -150px;
+}
+
 .location {
     font-family: 'Raleway', sans-serif;
     color: white;

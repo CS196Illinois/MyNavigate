@@ -1,116 +1,216 @@
 <html lang="en">
 
-    <head>
+<head>
 
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
 
-        <title>MyNavigate</title>
-        <link rel="icon" href="img/icon.png">
+    <title>MyNavigate</title>
+    <link rel="icon" href="img/icon.png">
 
-        <!-- Custom styles for this template -->
-        <link href="css/bootstrap.css" rel="stylesheet">
-        <link href="css/crimeMap.css" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/crimeMap.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap" rel="stylesheet">
 
-        <!-- Import map information -->
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
-        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+    <!-- Import map information -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
 
-        <!-- Google autofill -->
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCoPdq7VqBX2WU0ZRWjmLqtTVTe00qN3o&libraries=places"></script>
-        <script>
-            function initialize() {
-                var input = document.getElementById('searchTextStart');
-                var autocomplete = new google.maps.places.Autocomplete(input);
-                google.maps.event.addListener(autocomplete, 'place_changed', function () {
-                    var place1 = autocomplete.getPlace();
-                    document.getElementById('place1').value = place1.name;
-                    document.getElementById('place1Lat').value = place1.geometry.location.lat();
-                    document.getElementById('place1Lng').value = place1.geometry.location.lng();
-                });
+    <!-- Google autofill -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCoPdq7VqBX2WU0ZRWjmLqtTVTe00qN3o&libraries=places"></script>
+    <script>
+        function initialize() {
+            var input = document.getElementById('searchTextStart');
+            var autocomplete = new google.maps.places.Autocomplete(input);
+            google.maps.event.addListener(autocomplete, 'place_changed', function() {
+                var place1 = autocomplete.getPlace();
+                document.getElementById('place1').value = place1.name;
+                document.getElementById('place1Lat').value = place1.geometry.location.lat();
+                document.getElementById('place1Lng').value = place1.geometry.location.lng();
+            });
 
-                var input = document.getElementById('searchTextDestination');
-                var autocomplete = new google.maps.places.Autocomplete(input);
-                google.maps.event.addListener(autocomplete, 'place_changed', function () {
-                    var place2 = autocomplete.getPlace();
-                    document.getElementById('place2').value = place2.name;
-                    document.getElementById('place2Lat').value = place2.geometry.location.lat();
-                    document.getElementById('place2Lng').value = place2.geometry.location.lng();
-                });
-            }
-            google.maps.event.addDomListener(window, 'load', initialize);
-        </script>
+            var input = document.getElementById('searchTextDestination');
+            var autocomplete = new google.maps.places.Autocomplete(input);
+            google.maps.event.addListener(autocomplete, 'place_changed', function() {
+                var place2 = autocomplete.getPlace();
+                document.getElementById('place2').value = place2.name;
+                document.getElementById('place2Lat').value = place2.geometry.location.lat();
+                document.getElementById('place2Lng').value = place2.geometry.location.lng();
+            });
+        }
+        google.maps.event.addDomListener(window, 'load', initialize);
 
-        <!-- Import leaflet-locatecontrol information -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css"/>
-        <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+    </script>
 
-    </head>
+    <!-- Import leaflet-locatecontrol information -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
 
-    <body id="page-top">
-        <h1>
-            <div class="logo">
-                <img src="img/logo.png" alt="logo"/>
+</head>
+
+<body id="page-top">
+
+    <h1>
+        <div class="logo">
+            <img src="img/logo.png" alt="logo" />
+        </div>
+	    
+	<div class="description">
+	    <p>Our crime map gives you the safest route for your journey.</p>
+	    <p>Just input the start location and the end location and let our algorithm do the rest :)</p>
+	</div>
+
+        <div class="location">
+            <div class="start-location">
+                <form class="form-inline my-2 my-lg-0">
+                    <label id="destination-message">Select start point:</label>
+                    <input id="searchTextStart" class="form-control mr-sm-2" type="text" placeholder="Search for start point" autocomplete="on" runat="server">
+                    <!-- <button class="btn btn-light my-2 my-sm-0" type="submit">Search</button> -->
+                    <input type="hidden" id="place1" name="place1" />
+                    <input type="hidden" id="place1Lat" name="place1Lat" />
+                    <input type="hidden" id="place1Lng" name="place1Lng" />
+                </form>
             </div>
 
-            <div class="location">
-                <div class="start-location">
-                    <form class="form-inline my-2 my-lg-0">
-                        <label id="destination-message">Select start point:</label>
-                        <input id="searchTextStart" class="form-control mr-sm-2" type="text" placeholder="Search for start point" autocomplete="on" runat="server">
-                        <!-- <button class="btn btn-light my-2 my-sm-0" type="submit">Search</button> -->
-                        <input type="hidden" id="place1" name="place1"/>
-                        <input type="hidden" id="place1Lat" name="place1Lat"/>
-                        <input type="hidden" id="place1Lng" name="place1Lng"/>
-                    </form>
-                </div>
-
-                <div class="end-location">
-                    <form class="form-inline my-2 my-lg-0">
-                        <label id="destination-message">Select destination:</label>
-                        <input id="searchTextDestination" class="form-control mr-sm-2" type="text" placeholder="Search for destination" autocomplete="on" runat="server">
-                        <!-- <button class="btn btn-light my-2 my-sm-0" type="submit">Search</button> -->
-                        <input type="hidden" id="place2" name="place2"/>
-                        <input type="hidden" id="place2Lat" name="place2Lat"/>
-                        <input type="hidden" id="place2Lng" name="place2Lng"/>
-                    </form>
-                </div>
+            <div class="end-location">
+                <form class="form-inline my-2 my-lg-0">
+                    <label id="destination-message">Select destination:</label>
+                    <input id="searchTextDestination" class="form-control mr-sm-2" type="text" placeholder="Search for destination" autocomplete="on" runat="server">
+                    <!-- <button class="btn btn-light my-2 my-sm-0" type="submit">Search</button> -->
+                    <input type="hidden" id="place2" name="place2" />
+                    <input type="hidden" id="place2Lat" name="place2Lat" />
+                    <input type="hidden" id="place2Lng" name="place2Lng" />
+                </form>
             </div>
-        </h1>
+        </div>
+    </h1>
 
-        <!--The div element for the map -->
-        <div id="mapid"></div>
-        <script>
-            var map = L.map('mapid').setView([
-                40.1092101, -88.2294165
-            ], 13);
+    <!--The div element for the map -->
+    <div id="mapid"></div>
+    <script>
+        var map = L.map('mapid').setView([
+            40.1092101, -88.2294165
+        ], 13);
 
-            L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-                maxZoom: 18,
-                id: 'mapbox/streets-v11',
-                tileSize: 512,
-                zoomOffset: -1,
-                accessToken: 'pk.eyJ1Ijoid2VsYnltIiwiYSI6ImNrOHhmZ2cyZzBqanEzbXJ6b3BpaHhicHIifQ.5osNmEEJ_7PkwM5ADpkayg'
-            }).addTo(map);
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 18,
+            id: 'mapbox/streets-v11',
+            tileSize: 512,
+            zoomOffset: -1,
+            accessToken: 'pk.eyJ1Ijoid2VsYnltIiwiYSI6ImNrOHhmZ2cyZzBqanEzbXJ6b3BpaHhicHIifQ.5osNmEEJ_7PkwM5ADpkayg'
+        }).addTo(map);
 
-            var lc = L.control.locate({setView: 'always'}).addTo(map);
+        var lc = L.control.locate({
+            setView: 'always'
+        }).addTo(map);
 
-            lc.start();
+        lc.start();
 
-            var popup = L.popup();
+        var popup = L.popup();
 
-            function onMapClick(e) {
-                popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(mymap);
+        function onMapClick(e) {
+            popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(map);
+        }
+
+        map.on('click', onMapClick);
+
+    // must enable changing the url depending on location and dates
+    // Configure parameters for api request
+        // union coordinates = 40.1092101, -88.2294165
+        var latstring = 40.1092;
+        var lonstring = -88.2294;
+        // Distance in miles
+        var distance = 7000;
+        // Offset of time before now in hours
+        var offset = 1000 * (1000*60*60);
+    // processing of parameters into request link
+        var d = new Date();
+        var datetime_end = d.toISOString();
+        var datetwo = new Date(d - offset);
+        var datetime_ini = datetwo.toISOString();
+        var url = "https://api.crimeometer.com/v1/incidents/raw-data?lat=" + latstring.toString() + "&lon=" + lonstring.toString() + "&distance=" 
+                + distance.toString() + "mi&datetime_ini=" + datetime_ini + "&datetime_end=" + datetime_end;
+        var api_key = 'Qo7O5gfbY73c7INlcrTvQ2W9JN2QbwLBPTgbtMC0';
+        //var api_key = 'k3RAzKN1Ag14xTPlculT39RZb38LGgsG8n27ZycG';
+
+        function sendRequest(url) {
+            var lat = [];
+            var long = [];
+            // setting up XML request
+            var request = new XMLHttpRequest();
+            request.open('GET', url);
+            request.setRequestHeader('Content-Type', 'application/json');
+            request.setRequestHeader('x-api-key', api_key);
+
+            var toReturn = undefined;
+
+            // code to handle the response from the request
+            request.onreadystatechange = function() {
+                if (this.readyState === 4) {
+                    // alerts and log-printing for convenience temporarily- must use this data properly
+                    // alert("Working")
+                    // alert(this.responseText)
+                    console.log('Status:', this.status);
+                    console.log('Headers:', this.getAllResponseHeaders());
+                    console.log('Body:', this.responseText);
+                    toReturn = this.responseText;
+                    // alert("OSRC end");
+                    var toReturn = JSON.parse(this.responseText);
+                    for (var i = 0; i < toReturn.incidents.length; i++) {
+                        lat.push(toReturn.incidents[i].incident_latitude);
+                        long.push(toReturn.incidents[i].incident_longitude);
+                    }
+                    // alert(long.length);
+                    // alert(lat.length);
+                    for (var i = 0; i < lat.length; i++) {
+                        marker = new L.marker([lat[i], long[i]]).addTo(map);
+                    }
+                }
+            };
+
+            request.send();
+            // alert(toReturn + "is toReturn");
+
+        }
+
+        var value = sendRequest(url);
+        // alert(value);
+
+    </script>
+    <!-- 
+    <script>
+        var request = new XMLHttpRequest();
+        var lat = [];
+        var long = [];
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.setRequestHeader('x-api-key', 'k3RAzKN1Ag14xTPlculT39RZb38LGgsG8n27ZycG');
+        request.open('GET', 'https://api.crimeometer.com/v1/incidents/raw-data?lat=+30.3053&lon=-97.6790&distance=10mi&datetime_ini=2019-04-20T00:00:00.000Z&datetime_end=2019-04-21T00:00:00.000Z&page=1');
+        request.onreadystatechange = function() {
+            if (this.readyState === 4) {
+                console.log('Status:', this.status);
+                console.log('Headers:', this.getAllResponseHeaders());
+                console.log('Body:', this.responseText);
+                var jsonresponse = JSON.parse(this.responseText);
+                for (var i = 0; i < jsonresponse.incidents.length; i++) {
+                    lat.push(jsonresponse.incidents[i].incident_latitude);
+                    long.push(jsonresponse.incidents[i].incident_longitude);
+                }
             }
+        };
+        for (var i = 0; i < lat.length; i++) {
+			marker = new L.marker([lat[i], long[i]])
+				.addTo(map);
+		}
+        request.send();
 
-            map.on('click', onMapClick);
-        </script>
-        <!--Creates a polygon GeoJSON from LatLng coordinates. See main.js for implementation-->
-        <script src="bundle.js"></script>
-    </body>
+        map.on('click', onMapClick);
+    </script>
+    <!--Creates a polygon GeoJSON from LatLng coordinates. See main.js for implementation-->
+    <script src="bundle.js"></script>
+  </body>
 
 </html>
