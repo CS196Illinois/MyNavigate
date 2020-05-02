@@ -10,7 +10,7 @@ body {
     word-wrap: break-word;
     text-align: center;
     position: relative;
-    top: -150px;
+    top: -185px;
 }
 
 .location {
@@ -19,7 +19,7 @@ body {
     font-size: 1.5rem;
     text-align: center;
     position: relative;
-    top: -100px;
+    top: -160px;
     left: 35%;
 }
 
@@ -50,5 +50,5 @@ input[type=text]:focus {
     height: 690px;
     width: 100%;
     position: relative;
-    top: -80px;
+    top: -145px;
 }
