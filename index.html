@@ -120,7 +120,8 @@
 
         map.on('click', onMapClick);
 
-    // Must enable changing the url depending on location and dates
+        //Uncomment later
+/*     // Must enable changing the url depending on location and dates
     // Configure parameters for api request
         // Illini Union coordinates = 40.1092101, -88.2294165
         var latstring = 40.1092;
@@ -179,38 +180,11 @@
         }
 
         var value = sendRequest(url);
-        // alert(value);
+        // alert(value); */
 
     </script>
-    <!-- 
-    <script>
-        var request = new XMLHttpRequest();
-        var lat = [];
-        var long = [];
-        request.setRequestHeader('Content-Type', 'application/json');
-        request.setRequestHeader('x-api-key', 'k3RAzKN1Ag14xTPlculT39RZb38LGgsG8n27ZycG');
-        request.open('GET', 'https://api.crimeometer.com/v1/incidents/raw-data?lat=+30.3053&lon=-97.6790&distance=10mi&datetime_ini=2019-04-20T00:00:00.000Z&datetime_end=2019-04-21T00:00:00.000Z&page=1');
-        request.onreadystatechange = function() {
-            if (this.readyState === 4) {
-                console.log('Status:', this.status);
-                console.log('Headers:', this.getAllResponseHeaders());
-                console.log('Body:', this.responseText);
-                var jsonresponse = JSON.parse(this.responseText);
-                for (var i = 0; i < jsonresponse.incidents.length; i++) {
-                    lat.push(jsonresponse.incidents[i].incident_latitude);
-                    long.push(jsonresponse.incidents[i].incident_longitude);
-                }
-            }
-        };
-        for (var i = 0; i < lat.length; i++) {
-			marker = new L.marker([lat[i], long[i]])
-				.addTo(map);
-		}
-        request.send();
 
-        map.on('click', onMapClick);
-    </script> -->
-    <!--Creates a polygon GeoJSON from LatLng coordinates. See main.js for implementation-->
+    <!--Creates route that avoids points of crime. See main.js for implementation-->
     <script src="bundle.js"></script>
-  </body>
+</body>
 </html>
