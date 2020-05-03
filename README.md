@@ -16,3 +16,5 @@ Our web application uses the basics of programming in HTML, Javascript and CSS, 
 MyNavigate sisplays local areas of crime on an online map interface using API and provides optimal pathing to avoid said areas.
 
 Our aim was to create a web application that will help users by alleviating some of the stress that comes alongside traveling. By avoiding areas of high crime and areas where recent crime has taken place and opting to take a route around those areas, users can feel safer while traveling, be it on foot or while driving a car.
+
+Link to MyNavigate: https://cs196illinois.github.io/MyNavigate/
