@@ -10,7 +10,7 @@
 var circleToPolygon = require('circle-to-polygon');
 var coordinates = [-88.2272, 40.1092];
 var radius = 20;
-var numberOfEdges = 1000000;
+var numberOfEdges = 20;
 
 var point = circleToPolygon(coordinates, radius, numberOfEdges);
 console.log(point.type);
