@@ -1,12 +1,12 @@
 body {
-    background-color: rgb(0, 46, 60);
+    background-color: rgb(5, 50, 63);
     overflow: hidden;
 }
 
 .description {
     font-family: 'Raleway', sans-serif;
     color: white;
-    font-size: 1rem;
+    font-size: 1.25rem;
     word-wrap: break-word;
     text-align: center;
     position: relative;
