@@ -1,177 +1,537 @@
 {
-    "routes": [
+    "type": "FeatureCollection",
+    "features": [
       {
-        "summary": {
-          "distance": 2426.2,
-          "duration": 446.2
-        },
-        "segments": [
-          {
-            "distance": 2426.2,
-            "duration": 446.2,
-            "steps": [
-              {
-                "distance": 57.9,
-                "duration": 20.8,
-                "type": 11,
-                "instruction": "Head north on H\u00e4usserstra\u00dfe",
-                "name": "H\u00e4usserstra\u00dfe",
-                "way_points": [
-                  0,
-                  1
-                ]
-              },
-              {
-                "distance": 119.5,
-                "duration": 43,
-                "type": 0,
-                "instruction": "Turn left onto Bunsenstra\u00dfe",
-                "name": "Bunsenstra\u00dfe",
-                "way_points": [
-                  1,
-                  3
-                ]
-              },
-              {
-                "distance": 121,
-                "duration": 43.6,
-                "type": 0,
-                "instruction": "Turn left onto Landhausstra\u00dfe",
-                "name": "Landhausstra\u00dfe",
-                "way_points": [
-                  3,
-                  4
-                ]
-              },
-              {
-                "distance": 241.1,
-                "duration": 88.1,
-                "type": 0,
-                "instruction": "Turn left onto Blumenstra\u00dfe",
-                "name": "Blumenstra\u00dfe",
-                "way_points": [
-                  4,
-                  9
-                ]
-              },
-              {
-                "distance": 546.2,
-                "duration": 64.8,
-                "type": 1,
-                "instruction": "Turn right onto Rohrbacher Stra\u00dfe, B 3",
-                "name": "Rohrbacher Stra\u00dfe, B 3",
-                "way_points": [
-                  9,
-                  27
-                ]
-              },
-              {
-                "distance": 1081.5,
-                "duration": 123.7,
-                "type": 7,
-                "instruction": "Enter the roundabout and take the 2nd exit onto Rohrbacher Stra\u00dfe, B 3",
-                "name": "Rohrbacher Stra\u00dfe, B 3",
-                "exit_number": 2,
-                "way_points": [
-                  27,
-                  79
-                ]
-              },
-              {
-                "distance": 210,
-                "duration": 50.4,
-                "type": 1,
-                "instruction": "Turn right onto Rheinstra\u00dfe",
-                "name": "Rheinstra\u00dfe",
-                "way_points": [
-                  79,
-                  86
-                ]
-              },
-              {
-                "distance": 49.1,
-                "duration": 11.8,
-                "type": 1,
-                "instruction": "Turn right onto Kirschgartenstra\u00dfe",
-                "name": "Kirschgartenstra\u00dfe",
-                "way_points": [
-                  86,
-                  87
-                ]
-              },
-              {
-                "distance": 0,
-                "duration": 0,
-                "type": 10,
-                "instruction": "Arrive at Kirschgartenstra\u00dfe, on the right",
-                "name": "-",
-                "way_points": [
-                  87,
-                  87
-                ]
-              }
-            ]
-          }
-        ],
         "bbox": [
           8.687412,
           49.389682,
           8.692142,
           49.40544
         ],
-        "geometry": "ojplHyj`t@eB_@UbDS~CvEb@NsB@IXcDr@eJ?AvCn@fCr@ZJhBh@ZJhCx@hBr@VJNDLDt@Rv@TNFRPJJFJLVDLEBCL?J@HDHB@B@HCDCB?JHZf@HHF@F@N?B?F?t@GRAv@FD?N@P?\\C|@MRGd@IJAf@Gj@I`@EvAO^CD?XARC|@EtDSrBMz@E`AGt@CfBGt@CB?n@C\\?hAChEIn@Cb@??BHpE@nABpA@^ARFtCwAF",
-        "way_points": [
-          0,
-          87
-        ],
-        "extras": {
-          "waytypes": {
-            "values": [
-              [
-                0,
-                9,
-                3
-              ],
-              [
-                9,
-                79,
-                1
-              ],
-              [
-                79,
-                87,
-                3
+        "type": "Feature",
+        "properties": {
+          "segments": [
+            {
+              "distance": 2426.2,
+              "duration": 446.2,
+              "steps": [
+                {
+                  "distance": 57.9,
+                  "duration": 20.8,
+                  "type": 11,
+                  "instruction": "Head north on Häusserstraße",
+                  "name": "Häusserstraße",
+                  "way_points": [
+                    0,
+                    1
+                  ]
+                },
+                {
+                  "distance": 119.5,
+                  "duration": 43,
+                  "type": 0,
+                  "instruction": "Turn left onto Bunsenstraße",
+                  "name": "Bunsenstraße",
+                  "way_points": [
+                    1,
+                    3
+                  ]
+                },
+                {
+                  "distance": 121,
+                  "duration": 43.6,
+                  "type": 0,
+                  "instruction": "Turn left onto Landhausstraße",
+                  "name": "Landhausstraße",
+                  "way_points": [
+                    3,
+                    4
+                  ]
+                },
+                {
+                  "distance": 241.1,
+                  "duration": 88.1,
+                  "type": 0,
+                  "instruction": "Turn left onto Blumenstraße",
+                  "name": "Blumenstraße",
+                  "way_points": [
+                    4,
+                    9
+                  ]
+                },
+                {
+                  "distance": 546.2,
+                  "duration": 64.8,
+                  "type": 1,
+                  "instruction": "Turn right onto Rohrbacher Straße, B 3",
+                  "name": "Rohrbacher Straße, B 3",
+                  "way_points": [
+                    9,
+                    27
+                  ]
+                },
+                {
+                  "distance": 1081.5,
+                  "duration": 123.7,
+                  "type": 7,
+                  "instruction": "Enter the roundabout and take the 2nd exit onto Rohrbacher Straße, B 3",
+                  "name": "Rohrbacher Straße, B 3",
+                  "exit_number": 2,
+                  "way_points": [
+                    27,
+                    79
+                  ]
+                },
+                {
+                  "distance": 210,
+                  "duration": 50.4,
+                  "type": 1,
+                  "instruction": "Turn right onto Rheinstraße",
+                  "name": "Rheinstraße",
+                  "way_points": [
+                    79,
+                    86
+                  ]
+                },
+                {
+                  "distance": 49.1,
+                  "duration": 11.8,
+                  "type": 1,
+                  "instruction": "Turn right onto Kirschgartenstraße",
+                  "name": "Kirschgartenstraße",
+                  "way_points": [
+                    86,
+                    87
+                  ]
+                },
+                {
+                  "distance": 0,
+                  "duration": 0,
+                  "type": 10,
+                  "instruction": "Arrive at Kirschgartenstraße, on the right",
+                  "name": "-",
+                  "way_points": [
+                    87,
+                    87
+                  ]
+                }
               ]
-            ],
-            "summary": [
-              {
-                "value": 1,
-                "distance": 1627.7,
-                "amount": 67.09
-              },
-              {
-                "value": 3,
-                "distance": 798.5,
-                "amount": 32.91
-              }
-            ]
+            }
+          ],
+          "extras": {
+            "waytypes": {
+              "values": [
+                [
+                  0,
+                  9,
+                  3
+                ],
+                [
+                  9,
+                  79,
+                  1
+                ],
+                [
+                  79,
+                  87,
+                  3
+                ]
+              ],
+              "summary": [
+                {
+                  "value": 1,
+                  "distance": 1627.7,
+                  "amount": 67.09
+                },
+                {
+                  "value": 3,
+                  "distance": 798.5,
+                  "amount": 32.91
+                }
+              ]
+            },
+            "steepness": {
+              "values": [
+                [
+                  0,
+                  87,
+                  0
+                ]
+              ],
+              "summary": [
+                {
+                  "value": 0,
+                  "distance": 2426.2,
+                  "amount": 100
+                }
+              ]
+            }
           },
-          "steepness": {
-            "values": [
-              [
-                0,
-                87,
-                0
-              ]
+          "summary": {
+            "distance": 2426.2,
+            "duration": 446.2
+          },
+          "way_points": [
+            0,
+            87
+          ]
+        },
+        "geometry": {
+          "coordinates": [
+            [
+              8.690525,
+              49.404723
             ],
-            "summary": [
-              {
-                "value": 0,
-                "distance": 2426.2,
-                "amount": 100
-              }
+            [
+              8.690693,
+              49.405231
+            ],
+            [
+              8.689868,
+              49.405337
+            ],
+            [
+              8.689073,
+              49.40544
+            ],
+            [
+              8.688894,
+              49.404357
+            ],
+            [
+              8.689473,
+              49.404278
+            ],
+            [
+              8.689522,
+              49.404271
+            ],
+            [
+              8.690337,
+              49.404145
+            ],
+            [
+              8.692127,
+              49.403878
+            ],
+            [
+              8.692142,
+              49.403876
+            ],
+            [
+              8.691897,
+              49.403116
+            ],
+            [
+              8.691639,
+              49.402444
+            ],
+            [
+              8.691579,
+              49.402296
+            ],
+            [
+              8.691371,
+              49.401765
+            ],
+            [
+              8.691313,
+              49.401629
+            ],
+            [
+              8.691018,
+              49.400937
+            ],
+            [
+              8.690762,
+              49.400414
+            ],
+            [
+              8.690702,
+              49.400293
+            ],
+            [
+              8.690671,
+              49.400212
+            ],
+            [
+              8.690642,
+              49.400138
+            ],
+            [
+              8.69054,
+              49.399869
+            ],
+            [
+              8.690427,
+              49.39959
+            ],
+            [
+              8.690389,
+              49.399512
+            ],
+            [
+              8.6903,
+              49.399406
+            ],
+            [
+              8.690237,
+              49.399351
+            ],
+            [
+              8.690178,
+              49.399311
+            ],
+            [
+              8.690057,
+              49.399244
+            ],
+            [
+              8.689992,
+              49.399215
+            ],
+            [
+              8.689967,
+              49.399237
+            ],
+            [
+              8.689904,
+              49.399261
+            ],
+            [
+              8.689842,
+              49.399264
+            ],
+            [
+              8.689787,
+              49.39925
+            ],
+            [
+              8.68974,
+              49.399218
+            ],
+            [
+              8.689727,
+              49.399199
+            ],
+            [
+              8.689721,
+              49.399179
+            ],
+            [
+              8.689737,
+              49.399128
+            ],
+            [
+              8.689763,
+              49.399105
+            ],
+            [
+              8.689756,
+              49.399085
+            ],
+            [
+              8.689713,
+              49.399023
+            ],
+            [
+              8.689506,
+              49.398879
+            ],
+            [
+              8.689463,
+              49.398829
+            ],
+            [
+              8.689447,
+              49.398795
+            ],
+            [
+              8.689441,
+              49.398752
+            ],
+            [
+              8.68944,
+              49.398672
+            ],
+            [
+              8.68944,
+              49.398646
+            ],
+            [
+              8.689443,
+              49.39861
+            ],
+            [
+              8.68948,
+              49.398343
+            ],
+            [
+              8.689492,
+              49.398237
+            ],
+            [
+              8.689453,
+              49.39796
+            ],
+            [
+              8.68945,
+              49.39793
+            ],
+            [
+              8.68944,
+              49.397848
+            ],
+            [
+              8.689441,
+              49.397762
+            ],
+            [
+              8.689463,
+              49.397605
+            ],
+            [
+              8.689534,
+              49.397302
+            ],
+            [
+              8.689567,
+              49.397196
+            ],
+            [
+              8.689619,
+              49.397013
+            ],
+            [
+              8.689632,
+              49.39695
+            ],
+            [
+              8.689672,
+              49.396754
+            ],
+            [
+              8.689719,
+              49.39653
+            ],
+            [
+              8.689754,
+              49.396362
+            ],
+            [
+              8.689826,
+              49.39592
+            ],
+            [
+              8.689846,
+              49.395755
+            ],
+            [
+              8.689848,
+              49.395729
+            ],
+            [
+              8.689864,
+              49.395604
+            ],
+            [
+              8.689878,
+              49.395498
+            ],
+            [
+              8.689912,
+              49.395186
+            ],
+            [
+              8.690008,
+              49.394283
+            ],
+            [
+              8.690076,
+              49.393696
+            ],
+            [
+              8.690114,
+              49.393404
+            ],
+            [
+              8.690146,
+              49.393069
+            ],
+            [
+              8.690172,
+              49.392803
+            ],
+            [
+              8.690213,
+              49.392284
+            ],
+            [
+              8.690233,
+              49.392013
+            ],
+            [
+              8.690235,
+              49.391985
+            ],
+            [
+              8.690245,
+              49.391753
+            ],
+            [
+              8.690253,
+              49.391601
+            ],
+            [
+              8.690269,
+              49.391229
+            ],
+            [
+              8.690324,
+              49.390217
+            ],
+            [
+              8.690336,
+              49.38998
+            ],
+            [
+              8.690345,
+              49.389802
+            ],
+            [
+              8.69032,
+              49.389801
+            ],
+            [
+              8.68927,
+              49.389749
+            ],
+            [
+              8.68887,
+              49.389744
+            ],
+            [
+              8.68846,
+              49.389719
+            ],
+            [
+              8.688295,
+              49.389712
+            ],
+            [
+              8.688197,
+              49.389716
+            ],
+            [
+              8.687451,
+              49.389682
+            ],
+            [
+              8.687412,
+              49.390122
             ]
-          }
+          ],
+          "type": "LineString"
         }
       }
     ],
@@ -184,7 +544,7 @@
     "metadata": {
       "attribution": "openrouteservice.org | OpenStreetMap contributors",
       "service": "routing",
-      "timestamp": 1588466972281,
+      "timestamp": 1588471474754,
       "query": {
         "coordinates": [
           [
@@ -197,7 +557,7 @@
           ]
         ],
         "profile": "driving-hgv",
-        "format": "json",
+        "format": "geojson",
         "extra_info": [
           "waytype",
           "steepness"
