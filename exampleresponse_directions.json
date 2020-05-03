@@ -1,0 +1,254 @@
+{
+    "routes": [
+      {
+        "summary": {
+          "distance": 2426.2,
+          "duration": 446.2
+        },
+        "segments": [
+          {
+            "distance": 2426.2,
+            "duration": 446.2,
+            "steps": [
+              {
+                "distance": 57.9,
+                "duration": 20.8,
+                "type": 11,
+                "instruction": "Head north on H\u00e4usserstra\u00dfe",
+                "name": "H\u00e4usserstra\u00dfe",
+                "way_points": [
+                  0,
+                  1
+                ]
+              },
+              {
+                "distance": 119.5,
+                "duration": 43,
+                "type": 0,
+                "instruction": "Turn left onto Bunsenstra\u00dfe",
+                "name": "Bunsenstra\u00dfe",
+                "way_points": [
+                  1,
+                  3
+                ]
+              },
+              {
+                "distance": 121,
+                "duration": 43.6,
+                "type": 0,
+                "instruction": "Turn left onto Landhausstra\u00dfe",
+                "name": "Landhausstra\u00dfe",
+                "way_points": [
+                  3,
+                  4
+                ]
+              },
+              {
+                "distance": 241.1,
+                "duration": 88.1,
+                "type": 0,
+                "instruction": "Turn left onto Blumenstra\u00dfe",
+                "name": "Blumenstra\u00dfe",
+                "way_points": [
+                  4,
+                  9
+                ]
+              },
+              {
+                "distance": 546.2,
+                "duration": 64.8,
+                "type": 1,
+                "instruction": "Turn right onto Rohrbacher Stra\u00dfe, B 3",
+                "name": "Rohrbacher Stra\u00dfe, B 3",
+                "way_points": [
+                  9,
+                  27
+                ]
+              },
+              {
+                "distance": 1081.5,
+                "duration": 123.7,
+                "type": 7,
+                "instruction": "Enter the roundabout and take the 2nd exit onto Rohrbacher Stra\u00dfe, B 3",
+                "name": "Rohrbacher Stra\u00dfe, B 3",
+                "exit_number": 2,
+                "way_points": [
+                  27,
+                  79
+                ]
+              },
+              {
+                "distance": 210,
+                "duration": 50.4,
+                "type": 1,
+                "instruction": "Turn right onto Rheinstra\u00dfe",
+                "name": "Rheinstra\u00dfe",
+                "way_points": [
+                  79,
+                  86
+                ]
+              },
+              {
+                "distance": 49.1,
+                "duration": 11.8,
+                "type": 1,
+                "instruction": "Turn right onto Kirschgartenstra\u00dfe",
+                "name": "Kirschgartenstra\u00dfe",
+                "way_points": [
+                  86,
+                  87
+                ]
+              },
+              {
+                "distance": 0,
+                "duration": 0,
+                "type": 10,
+                "instruction": "Arrive at Kirschgartenstra\u00dfe, on the right",
+                "name": "-",
+                "way_points": [
+                  87,
+                  87
+                ]
+              }
+            ]
+          }
+        ],
+        "bbox": [
+          8.687412,
+          49.389682,
+          8.692142,
+          49.40544
+        ],
+        "geometry": "ojplHyj`t@eB_@UbDS~CvEb@NsB@IXcDr@eJ?AvCn@fCr@ZJhBh@ZJhCx@hBr@VJNDLDt@Rv@TNFRPJJFJLVDLEBCL?J@HDHB@B@HCDCB?JHZf@HHF@F@N?B?F?t@GRAv@FD?N@P?\\C|@MRGd@IJAf@Gj@I`@EvAO^CD?XARC|@EtDSrBMz@E`AGt@CfBGt@CB?n@C\\?hAChEIn@Cb@??BHpE@nABpA@^ARFtCwAF",
+        "way_points": [
+          0,
+          87
+        ],
+        "extras": {
+          "waytypes": {
+            "values": [
+              [
+                0,
+                9,
+                3
+              ],
+              [
+                9,
+                79,
+                1
+              ],
+              [
+                79,
+                87,
+                3
+              ]
+            ],
+            "summary": [
+              {
+                "value": 1,
+                "distance": 1627.7,
+                "amount": 67.09
+              },
+              {
+                "value": 3,
+                "distance": 798.5,
+                "amount": 32.91
+              }
+            ]
+          },
+          "steepness": {
+            "values": [
+              [
+                0,
+                87,
+                0
+              ]
+            ],
+            "summary": [
+              {
+                "value": 0,
+                "distance": 2426.2,
+                "amount": 100
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "bbox": [
+      8.687412,
+      49.389682,
+      8.692142,
+      49.40544
+    ],
+    "metadata": {
+      "attribution": "openrouteservice.org | OpenStreetMap contributors",
+      "service": "routing",
+      "timestamp": 1588466972281,
+      "query": {
+        "coordinates": [
+          [
+            8.690958,
+            49.404662
+          ],
+          [
+            8.687868,
+            49.390139
+          ]
+        ],
+        "profile": "driving-hgv",
+        "format": "json",
+        "extra_info": [
+          "waytype",
+          "steepness"
+        ],
+        "options": {
+          "avoid_features": [
+            "highways",
+            "tollways",
+            "ferries",
+            "fords"
+          ],
+          "vehicle_type": "hgv",
+          "profile_params": {
+            "restrictions": {
+              "height": 10,
+              "weight": 5
+            }
+          },
+          "avoid_polygons": {
+            "coordinates": [
+              [
+                [
+                  8.683533668518066,
+                  49.41987949639816
+                ],
+                [
+                  8.680272102355957,
+                  49.41812070066643
+                ],
+                [
+                  8.683919906616211,
+                  49.4132348262363
+                ],
+                [
+                  8.689756393432617,
+                  49.41806486484901
+                ],
+                [
+                  8.683533668518066,
+                  49.41987949639816
+                ]
+              ]
+            ],
+            "type": "Polygon"
+          }
+        }
+      },
+      "engine": {
+        "version": "6.1.0",
+        "build_date": "2020-04-27T04:06:54Z",
+        "graph_date": "2020-04-13T00:00:00Z"
+      }
+    }
+  }
