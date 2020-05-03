@@ -83,7 +83,7 @@ for (i = 0; i < incidents.length; i++) {
 //Creates route with a POST request to OpenRouteServices
 let request = new XMLHttpRequest();
 
-var url = "https://api.openrouteservice.org/v2/directions/foot-walking/json";
+var url = "https://api.openrouteservice.org/v2/directions/foot-walking/geojson";
 request.open('POST', url);
 
 request.setRequestHeader('Accept', 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8');
@@ -92,9 +92,12 @@ request.setRequestHeader('Authorization', '5b3ce3597851110001cf6248b365d96ecb994
 
 request.onreadystatechange = function () {
     if (this.readyState === 4) {
-    console.log('Status:', this.status);
-    console.log('Headers:', this.getAllResponseHeaders());
-    console.log('Body:', this.responseText);
+        console.log('Status:', this.status);
+        console.log('Headers:', this.getAllResponseHeaders());
+        console.log('Body:', this.responseText);
+        //Plot route on map
+        var route = JSON.parse(this.responseText);
+        L.geoJSON(route).addTo(map);
     }
 };
 
@@ -109,9 +112,6 @@ let pathing_restrictions = {
 const body = JSON.stringify(pathing_restrictions);
 
 request.send(body);
-
-//Plot route on map
-
 },{"circle-to-polygon":2}],2:[function(require,module,exports){
 "use strict";
 function toRadians(angleInDegrees) {
