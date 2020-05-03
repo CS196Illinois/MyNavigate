@@ -1,28 +1,117 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 /**
+ * This javascript file creates a route from point A to point B using a MultiPolygon GeoJSON object.
+ * The MultiPolygon GeoJSON object contains the coordinates of each polygon that represents a buffered region 
+ * around a single point of crime.
+ * After making changes to this file, run 'browserify main.js -o bundle.js' in the command line after to see
+ * the changes on the website. 
+ */
+
+
+var circleToPolygon = require('circle-to-polygon');
+//Set style for crime marker points
+var myStyle = {
+    "color": "#ff7800",
+    "weight": 5
+};
+
+//Replace later with data from JSON file
+var sampleCrimeData = {
+    "incidents": [
+        {
+           "location": "Illini Union", 
+           "incident_latitude": 40.1092,
+            "incident_longitude": -88.2272
+        },
+        {
+           "location": "Engineering Hall",
+           "incident_latitude": 40.106499574,
+           "incident_longitude": -88.222832442
+       },
+       {
+           "location": "Alma Mater",
+           "incident_latitude": 40.1099,
+           "incident_longitude": -88.2284
+       },
+       {
+           "location": "Altgeld",
+           "incident_latitude": 40.105666244, 
+           "incident_longitude": -88.223665772
+       },
+       {
+           "location": "Noyes",
+           "incident_latitude": 40.1085,
+           "incident_longitude": -88.2261
+       },
+    ]
+}
+
+/**
  * Uses the Node.js package circle-to-polygon to create a GeoJSON that roughly approximates a circle 
  * centered at a specific latitude and longitude
  * @param circleToPolygon the module loaded by require
  * @param coordinates represented by array [longitude, latitude]
  * @param radius in meters
  * @param numberofEdges polygon resembles more of a circle as this value increases
- * In order to see the updates in the website, run: 'browserify main.js -o bundle.js' in the command line
  */
-var circleToPolygon = require('circle-to-polygon');
-var coordinates = [-88.2272, 40.1092];
-var radius = 20;
-var numberOfEdges = 1000000;
+ function createBufferPolygons(latitude, longitude) {
+     let coordinates = [longitude, latitude];
+     let radius = 20;
+     let numberOfEdges = 20;
+     return circleToPolygon(coordinates, radius, numberOfEdges);
+ }
 
-var point = circleToPolygon(coordinates, radius, numberOfEdges);
-console.log(point.type);
+//Plots each point on the map
+//Creates 20 meter buffer around each crime point and stores in a MultiPolygon GeoJSON object
+var incidents = sampleCrimeData.incidents;
+var test = new Array();
+var bufferPolygons = {
+    "type": "MultiPolygon",
+    "coordinates": []
+}
 
-var myStyle = {
-    "color": "#ff7800",
-    "weight": 5
+for (i = 0; i < incidents.length; i++) {
+    let latitude = incidents[i].incident_latitude;
+    let longitude = incidents[i].incident_longitude;
+    L.circle([latitude, longitude], {
+        style:myStyle
+    }).addTo(map);
+    let buffPolyCoordinates = createBufferPolygons(latitude, longitude).coordinates;
+    bufferPolygons.coordinates.push(buffPolyCoordinates);
+}
+
+//Creates route with a POST request to OpenRouteServices
+let request = new XMLHttpRequest();
+
+var url = "https://api.openrouteservice.org/v2/directions/foot-walking/json";
+request.open('POST', url);
+
+request.setRequestHeader('Accept', 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8');
+request.setRequestHeader('Content-Type', 'application/json');
+request.setRequestHeader('Authorization', '5b3ce3597851110001cf6248b365d96ecb99476a8e3a4ca7d24de70f');
+
+request.onreadystatechange = function () {
+    if (this.readyState === 4) {
+    console.log('Status:', this.status);
+    console.log('Headers:', this.getAllResponseHeaders());
+    console.log('Body:', this.responseText);
+    }
 };
-L.geoJSON(point, {
-    style:myStyle
-}).addTo(map);
+
+//Set start and end points of travel (user-inputted)
+let pathing_restrictions = {
+    "coordinates": [[-88.235956, 40.096259],[-88.218870, 40.110620]],
+    "options":{
+    "avoid_polygons": bufferPolygons
+    },
+    format: 'geojson'
+};
+const body = JSON.stringify(pathing_restrictions);
+
+request.send(body);
+
+//Plot route on map
+
 },{"circle-to-polygon":2}],2:[function(require,module,exports){
 "use strict";
 function toRadians(angleInDegrees) {
