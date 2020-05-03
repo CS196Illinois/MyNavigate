@@ -26,18 +26,22 @@
             var autocomplete = new google.maps.places.Autocomplete(input);
             google.maps.event.addListener(autocomplete, 'place_changed', function() {
                 var place1 = autocomplete.getPlace();
-                document.getElementById('place1').value = place1.name;
-                document.getElementById('place1Lat').value = place1.geometry.location.lat();
-                document.getElementById('place1Lng').value = place1.geometry.location.lng();
+                var name1 = place1.name;
+                var lat1 = place1.geometry.location.lat();
+                var lng1 = place1.geometry.location.lng();
+                var start_location = [lat1, lng1];
+                map.flyTo(start_location, 8);
             });
 
-            var input = document.getElementById('searchTextDestination');
-            var autocomplete = new google.maps.places.Autocomplete(input);
-            google.maps.event.addListener(autocomplete, 'place_changed', function() {
-                var place2 = autocomplete.getPlace();
-                document.getElementById('place2').value = place2.name;
-                document.getElementById('place2Lat').value = place2.geometry.location.lat();
-                document.getElementById('place2Lng').value = place2.geometry.location.lng();
+            var input1 = document.getElementById('searchTextDestination');
+            var autocomplete1 = new google.maps.places.Autocomplete(input1);
+            google.maps.event.addListener(autocomplete1, 'place_changed', function() {
+                var place2 = autocomplete1.getPlace();
+                var name2 = place2.name;
+                var lat2 = place2.geometry.location.lat();
+                var lng2 = place2.geometry.location.lng();
+                var end_location = [lat2, lng2];
+                map.flyTo(end_location, 8);
             });
         }
         google.maps.event.addDomListener(window, 'load', initialize);
