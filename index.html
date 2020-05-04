@@ -20,13 +20,17 @@
         <!--Places a marker and makes the user's map "fly" to the entered start point and destinaton-->
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCoPdq7VqBX2WU0ZRWjmLqtTVTe00qN3o&libraries=places"></script>
         <script>
+            
             function initialize() {
+                
                 var input = document.getElementById('searchTextStart');
                 var autocomplete = new google.maps.places.Autocomplete(input);
+                
                 //lat1 and lng1 default location set to be campus center: Illini Union = 40.1092101, -88.2294165
                 var lat1 = 40.1092101;
                 var lng1 = -88.2294165;
                 var lat2, lng2;
+                
                 google.maps.event.addListener(autocomplete, 'place_changed', function() {
                     var place1 = autocomplete.getPlace();
                     var name1 = place1.name;
@@ -56,12 +60,10 @@
                       throw new Error(
                           `ERROR! Chosen start location and end location are the same!`
                       );
-		                }
+		            }
                     var end_location = [lat2, lng2];
                     map.flyTo(end_location, 15);
                     L.marker(end_location).addTo(map);
-                    
-                    
                     var bounds = L.latLngBounds([start_marker, destination_marker]);
                     map.fitBounds(bounds)
                 });
@@ -152,26 +154,26 @@
 
             map.on('click', onMapClick);
 
-            // Must enable changing the url depending on location and dates
-            // Configure parameters for Crimeometer API request
             // Illini Union coordinates = (40.1092101, -88.2294165)
             var latstring = 40.1092;
             var lonstring = -88.2294;
-            // Distance (miles)
-            var distance = 7000;
-            // Offset of time before current (hours)
-            var offset = 1000 * (1000*60*60);
-            // Link for the processing of parameters into a GET request
+            var distance = 7000; // Distance (miles)
+            var offset = 1000 * (1000*60*60); // Offset of time before current (hours)
             var d = new Date();
             var datetime_end = d.toISOString();
             var datetwo = new Date(d - offset);
             var datetime_ini = datetwo.toISOString();
+            
+            // Link for the processing of parameters into a GET request
             var url = "https://api.crimeometer.com/v1/incidents/raw-data?lat=" + latstring.toString() + "&lon=" + lonstring.toString() + "&distance=" 
                     + distance.toString() + "mi&datetime_ini=" + datetime_ini + "&datetime_end=" + datetime_end;
             var api_key = 'k3RAzKN1Ag14xTPlculT39RZb38LGgsG8n27ZycG';
+            
             var latitudes = [];
             var longitudes = [];
+            
             function sendRequest(url) {
+                
                 // Making an XML request
                 var request = new XMLHttpRequest();
                 request.open('GET', url);
@@ -181,23 +183,22 @@
                 // Handles the response from the GET request
                 request.onreadystatechange = function() {
                     if (this.readyState === 4) {
-                        // Alerts and log-printing for convenience temporarily:
-                        console.log('Status:', this.status);
-                        console.log('Headers:', this.getAllResponseHeaders());
-                        console.log('Body:', this.responseText);
+                        
                         // Parses results into a JSON object 
                         // Stores the latitudes and longitudes of each crime into latitudes[] and longitudes[] respectively
-                        var toReturn = this.responseText;
-                        toReturn = JSON.parse(this.responseText);
-                        for (var i = 0; i < toReturn.incidents.length; i++) {
-                            latitudes.push(toReturn.incidents[i].incident_latitude);
-                            longitudes.push(toReturn.incidents[i].incident_longitude);
+                        var incidentsJson = JSON.parse(this.responseText);
+                        
+                        for (var i = 0; i < incidentsJson.incidents.length; i++) {
+                            latitudes.push(incidentsJson.incidents[i].incident_latitude);
+                            longitudes.push(incidentsJson.incidents[i].incident_longitude);
                         }
+                        
                         //Plots each crime point on the map
                         for (var i = 0; i < latitudes.length; i++) {
                             L.circle([latitudes[i], longitudes[i]]).addTo(map);
                         }
                     }
+                    
                     //Creates buffer polygons based on the coordinates of each crime point using a function found in main.js
                     window.crimePointsToPolygons(latitudes, longitudes);
                 };
@@ -205,15 +206,20 @@
                 request.send();        
             }
 
-            var value = sendRequest(url);
             //Function for creating route with user-inputted start and destination that also avoids areas with recent crime
             function createPath() {
+                
+                // get the points to create route for
                 var startLat = document.getElementById("place1Lat").value;
                 var startLng = document.getElementById("place1Lng").value;
                 var endLat = document.getElementById("place2Lat").value;
                 var endLng = document.getElementById("place2Lng").value;
+                
+                // create route for those points
                 window.createRoute(startLat, startLng, endLat, endLng);
             }
+            
+            sendRequest(url);
         </script>
 
         <!--Contains functions for creating buffer polygons and route base on them.-->
