@@ -43,6 +43,21 @@ var sampleCrimeData = {
            "incident_latitude": 40.1085,
            "incident_longitude": -88.2261
        },
+       {
+           "location": "Siebel Center",
+           "incident_latitude": 40.1138,
+           "incident_longitude": 88.2249
+       },
+       {
+           "location": "Bell Tower",
+           "incident_latitude": 40.1028,
+           "incident_longitude": -88.2272  
+       },
+       {
+           "location": "ARC",
+           "incident_latitude": 40.1008,
+           "incident_longitude": -88.2356 
+       }
     ]
 }
 
