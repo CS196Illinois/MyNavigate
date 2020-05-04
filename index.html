@@ -195,7 +195,9 @@
                         
                         //Plots each crime point on the map
                         for (var i = 0; i < latitudes.length; i++) {
-                            L.circle([latitudes[i], longitudes[i]]).addTo(map);
+                            L.circle([latitudes[i], longitudes[i]], 20, {
+                                color: 'red',
+                            }).addTo(map);
                         }
                     }
                     

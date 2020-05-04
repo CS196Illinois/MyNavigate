@@ -7,13 +7,7 @@
  * the changes on the website. 
  */
 
-
 var circleToPolygon = require('circle-to-polygon');
-//Set style for crime marker points
-var myStyle = {
-    "color": "#ff7800",
-    "weight": 5
-};
 
 // The free version of Crimeometer API contains limited data points
 // Generated JSON in a similar format to Crimeomter to test the app in the Urbana-Champaign area with police reports
@@ -117,12 +111,11 @@ var bufferPolygons = {
 for (i = 0; i < incidents.length; i++) {
     let latitude = incidents[i].incident_latitude;
     let longitude = incidents[i].incident_longitude;
-    L.circle([latitude, longitude], {
-        style:myStyle
+    L.circle([latitude, longitude], 20, {
+        color:'red'
     }).addTo(map);
     let buffPolyCoordinates = createBufferPolygon(latitude, longitude).coordinates;
     bufferPolygons.coordinates.push(buffPolyCoordinates);
-    console.log("success");
 }
 
 /**
