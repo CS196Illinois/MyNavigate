@@ -15,7 +15,8 @@ var myStyle = {
     "weight": 5
 };
 
-//Replace later with data from JSON file
+// The free version of Crimeometer API contains limited data points
+// Generated sample data in a similar format to Crimeomter to test the app in the Urbana-Champaign area
 var sampleCrimeData = {
     "incidents": [
         {
@@ -56,13 +57,12 @@ var sampleCrimeData = {
  */
  function createBufferPolygon(latitude, longitude) {
      let coordinates = [longitude, latitude];
-     let radius = 100;
+     let radius = 20;
      let numberOfEdges = 20;
      return circleToPolygon(coordinates, radius, numberOfEdges);
  }
 
-//Plots each point on the map
-//Creates 20 meter buffer around each crime point and stores in a MultiPolygon GeoJSON object
+// Plots and creates 20 meter buffer around each sampleCrimeData entry and stores in the bufferPolygons MultiPolygon GeoJSON object
 var bufferPolygons = {
     "type": "MultiPolygon",
     "coordinates": []
@@ -84,7 +84,12 @@ for (i = 0; i < incidents.length; i++) {
     bufferPolygons.coordinates.push(buffPolyCoordinates);
 }
 
-window.plotCrimePoints = function(latitudes, longitudes) {
+/**
+ * Creates 20 meter buffer around each crime point and stores in the bufferPolygons MultiPolygon GeoJSON object
+ * @param latitudes array of crime point latitudes
+ * @param longitudes array of crime point longitudes
+ */
+window.crimePointsToPolygons = function(latitudes, longitudes) {
     for(i = 0; i < latitudes.length; i++) {
         let latitude = latitudes[i];
         let longitude = longitudes[i];
@@ -94,8 +99,15 @@ window.plotCrimePoints = function(latitudes, longitudes) {
     console.log(bufferPolygons);
 }
 
-//Set start and end points of travel (Start: State Farm, End: Everitt Laboratory)
-//Should be based on user-input
+/**
+ * Creates openrouteservice POST request to construct an FeatureCollection GeoJSON object that represents 
+ * the path from the user-inputed start point to destination that also avoids polygons that represent areas with
+ * past crime
+ * @param startLat start point latitude
+ * @param startLng start point longitude
+ * @param endLat destination latitude
+ * @param endLng destination longitude
+ */
 window.createRoute = function(startLat, startLng, endLat, endLng) {
     //Creates route with a POST request to OpenRouteServices
     let request = new XMLHttpRequest();
@@ -127,7 +139,6 @@ window.createRoute = function(startLat, startLng, endLat, endLng) {
     const body = JSON.stringify(pathing_restrictions);
     
     request.send(body);
-    return 0;
 }
 
 },{"circle-to-polygon":2}],2:[function(require,module,exports){
