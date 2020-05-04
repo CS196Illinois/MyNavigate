@@ -2,7 +2,7 @@
  * This javascript file creates a route from point A to point B using a MultiPolygon GeoJSON object.
  * The MultiPolygon GeoJSON object contains the coordinates of each polygon that represents a buffered region 
  * around a single point of crime.
- * After making changes to this file, run 'browserify main.js -o bundle.js' in the command line after to see
+ * After making changes to this file, run 'browserify main.js -o bundle1.js' in the command line after to see
  * the changes on the website. 
  */
 
@@ -15,13 +15,53 @@ var myStyle = {
 };
 
 // The free version of Crimeometer API contains limited data points
-// Generated sample data in a similar format to Crimeomter to test the app in the Urbana-Champaign area
+// Generated JSON in a similar format to Crimeomter to test the app in the Urbana-Champaign area with police reports
 var sampleCrimeData = {
     "incidents": [
         {
-           "location": "Illini Union", 
-           "incident_latitude": 40.1092,
-            "incident_longitude": -88.2272
+            "location": " Motor Vehicle Theft 1600 BLOCK OF N MATTIS AVE",
+            "incident_latitude": 40.132970,
+            "incident_longitude": -88.277000
+        },
+        {
+            "location": "Burglary 700 BLOCK OF HAMILTON Dr",
+            "incident_latitude": 40.100430,
+            "incident_longitude": -88.253530
+        },
+        {
+            "location": "Mob Action 1000 Block RACE ST S",
+            "incident_latitude": 40.104110,
+            "incident_longitude": -88.209590
+        },
+        {
+            "location": "Disorderly Conduct 400 Block VINE ST S",
+            "incident_latitude": 40.110200,
+            "incident_longitude": -88.204600
+        },
+        {
+            "location": "Disorderly Conduct 800 Block GREEN ST W",
+            "incident_latitude": 40.110680,
+            "incident_longitude": -88.217770
+        },
+        {
+            "location": "Theft 200 Block HARVEY ST",
+            "incident_latitude": 40.113180,
+            "incident_longitude": -88.222270
+        },
+        {
+            "location": "RECKLESS DISCHARGE OF A FIREARM COLER AV & FAIRVIEW AV",
+            "incident_latitude":40.120110,
+            "incident_longitude": -88.215740
+        },
+        {
+            "location": "Burglary 4000 BLOCK OF TURNBERRY DR",
+            "incident_latitude": 40.103130,
+            "incident_longitude": -88.310780
+        },
+        {
+            "location":"Burglary 1200 BLOCK OF S MATTIS AVE",
+            "incident_latitude": 40.103730,
+            "incident_longitude":-88.276490
         },
         {
            "location": "Engineering Hall",
@@ -32,21 +72,6 @@ var sampleCrimeData = {
            "location": "Alma Mater",
            "incident_latitude": 40.1099,
            "incident_longitude": -88.2284
-       },
-       {
-           "location": "Altgeld",
-           "incident_latitude": 40.105666244, 
-           "incident_longitude": -88.223665772
-       },
-       {
-           "location": "Noyes",
-           "incident_latitude": 40.1085,
-           "incident_longitude": -88.2261
-       },
-       {
-           "location": "Siebel Center",
-           "incident_latitude": 40.1138,
-           "incident_longitude": 88.2249
        },
        {
            "location": "Bell Tower",
@@ -96,6 +121,7 @@ for (i = 0; i < incidents.length; i++) {
     }).addTo(map);
     let buffPolyCoordinates = createBufferPolygon(latitude, longitude).coordinates;
     bufferPolygons.coordinates.push(buffPolyCoordinates);
+    console.log("success");
 }
 
 /**
@@ -110,7 +136,6 @@ window.crimePointsToPolygons = function(latitudes, longitudes) {
         let buffPolyCoordinates = createBufferPolygon(latitude, longitude).coordinates;
         bufferPolygons.coordinates.push(buffPolyCoordinates);
     }
-    console.log(bufferPolygons);
 }
 
 /**
