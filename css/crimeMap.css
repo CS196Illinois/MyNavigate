@@ -19,7 +19,7 @@ body {
     font-size: 1.5rem;
     text-align: center;
     position: relative;
-    top: -160px;
+    top: -180px;
     left: 35%;
 }
 
@@ -41,13 +41,18 @@ body {
 .button {
     background-color:rgb(212, 88, 19);
     border: none;
-    color: black;
-    padding: 15px 32px;
+    color: #002e3c;
+    padding: 9px 15px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
   }
+.center {
+    position: relative;
+    right: 32%;
+    top: 25px;
+}
 
 label {
     padding-right: 10px;
