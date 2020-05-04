@@ -76,9 +76,9 @@ var bufferPolygons = {
 for (i = 0; i < incidents.length; i++) {
     let latitude = incidents[i].incident_latitude;
     let longitude = incidents[i].incident_longitude;
-/*     L.circle([latitude, longitude], {
+    L.circle([latitude, longitude], {
         style:myStyle
-    }).addTo(map); */
+    }).addTo(map);
     let buffPolyCoordinates = createBufferPolygon(latitude, longitude).coordinates;
     bufferPolygons.coordinates.push(buffPolyCoordinates);
 }
