@@ -108,7 +108,6 @@ window.crimePointsToPolygons = function(latitudes, longitudes) {
  * @param endLng destination longitude
  */
 window.createRoute = function(startLat, startLng, endLat, endLng) {
-    //Creates route with a POST request to OpenRouteServices
     let request = new XMLHttpRequest();
 
     var url = "https://api.openrouteservice.org/v2/directions/foot-walking/geojson";
