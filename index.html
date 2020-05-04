@@ -68,11 +68,11 @@
                     map.fitBounds(bounds)
                 });
               
-              	button.addEventListener("click", function(){
+/*               	button.addEventListener("click", function(){
                   lat1 = 40.1092101;
                   lng1 = -88.2294165;
                   map.flyTo([lat1, lng1], 15);
-                });
+                }); */
             }
             google.maps.event.addDomListener(window, 'load', initialize);
         </script>
@@ -98,28 +98,28 @@
             </div>
 
             <!--Form that takes the user to enter the start point-->
-            <!--When the button is cliced, the createPath() method is called-->
+            <!--When the button is clicked, the createPath() method is called-->
             <div class="location">
                 <div class="start-location">
-                    <form class="form-inline my-2 my-lg-0">
+                    <form id ="myform" class="form-inline my-2 my-lg-0">
                         <label id="destination-message">Select start point:</label>
                         <input id="searchTextStart" class="form-control mr-sm-2" type="text" placeholder="Search for start point" autocomplete="on" runat="server">
-                        <!-- <button class="btn btn-light my-2 my-sm-0" type="submit">Search</button> -->
                         <input type="hidden" id="place1Lat" name="place1Lat" />
                         <input type="hidden" id="place1Lng" name="place1Lng" />
+                        <button class="button btn btn-light my-2 my-sm-0" type="reset">Reset</button>
                     </form>
                 </div>
 
                 <div class="end-location">
-                    <form class="form-inline my-2 my-lg-0">
+                    <form id="myform1" class="form-inline my-2 my-lg-0">
                         <label id="destination-message">Select destination:</label>
                         <input id="searchTextDestination" class="form-control mr-sm-2" type="text" placeholder="Search for destination" autocomplete="on" runat="server">
-                        <button class="btn btn-light my-2 my-sm-0" type="button" onclick="createPath()" >Search</button>
                         <input type="hidden" id="place2Lat" name="place2Lat" />
                         <input type="hidden" id="place2Lng" name="place2Lng" />
+                        <button class="button btn btn-light my-2 my-sm-0" type="reset">Reset</button>
                     </form>
                 </div>
-              	<button class="button">Reset Location</button>
+                <button class="center button btn btn-light my-2 my-sm-0" type="button" onclick="createPath()" >Search</button>
             </div>
         </h1>
 
@@ -209,20 +209,20 @@
             //Function for creating route with user-inputted start and destination that also avoids areas with recent crime
             function createPath() {
                 
-                // get the points to create route for
+                // Get the points to create route for
                 var startLat = document.getElementById("place1Lat").value;
                 var startLng = document.getElementById("place1Lng").value;
                 var endLat = document.getElementById("place2Lat").value;
                 var endLng = document.getElementById("place2Lng").value;
                 
-                // create route for those points
+                // Create route for those points
                 window.createRoute(startLat, startLng, endLat, endLng);
             }
             
             sendRequest(url);
         </script>
 
-        <!--Contains functions for creating buffer polygons and route base on them.-->
+        <!--Contains functions for creating buffer polygons and a route based on them.-->
         <!--See main.js for implementation-->
         <script type="text/javascript" src="bundle1.js"></script>
     </body>
