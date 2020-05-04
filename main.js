@@ -126,17 +126,15 @@ window.createRoute = function(startLat, startLng, endLat, endLng) {
     let request = new XMLHttpRequest();
 
     var url = "https://api.openrouteservice.org/v2/directions/foot-walking/geojson";
+    var api_key_ors = '5b3ce3597851110001cf6248b365d96ecb99476a8e3a4ca7d24de70f';
     request.open('POST', url);
 
     request.setRequestHeader('Accept', 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8');
     request.setRequestHeader('Content-Type', 'application/json');
-    request.setRequestHeader('Authorization', '5b3ce3597851110001cf6248b365d96ecb99476a8e3a4ca7d24de70f');
+    request.setRequestHeader('Authorization', api_key_ors);
 
     request.onreadystatechange = function () {
         if (this.readyState === 4) {
-            console.log('Status:', this.status);
-            console.log('Headers:', this.getAllResponseHeaders());
-            console.log('Body:', this.responseText);
             //Plot route on map
             var route = JSON.parse(this.responseText);
             L.geoJSON(route).addTo(map);

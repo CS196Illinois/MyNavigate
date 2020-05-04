@@ -21,6 +21,7 @@
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCoPdq7VqBX2WU0ZRWjmLqtTVTe00qN3o&libraries=places"></script>
         <script>
             
+            // sets the latitude, longitude and initial state of the map based on user-input
             function initialize() {
                 
                 var input = document.getElementById('searchTextStart');
@@ -34,11 +35,13 @@
                 google.maps.event.addListener(autocomplete, 'place_changed', function() {
                     var place1 = autocomplete.getPlace();
                     var name1 = place1.name;
+                    
                     //Gathers and stores the user-inputed starting latitude and longitude
                     var lat1 = place1.geometry.location.lat();
                     document.getElementById("place1Lat").value = lat1;
                     var lng1 = place1.geometry.location.lng();
                     document.getElementById("place1Lng").value = lng1;
+                    
                     var start_location = [lat1, lng1];
                     map.flyTo(start_location, 15);
                     L.marker(start_location).addTo(map);
@@ -46,14 +49,17 @@
     
                 var input1 = document.getElementById('searchTextDestination');
                 var autocomplete1 = new google.maps.places.Autocomplete(input1);
+                
                 google.maps.event.addListener(autocomplete1, 'place_changed', function() {
                     var place2 = autocomplete1.getPlace();
                     var name2 = place2.name;
+                    
                     //Gathers and stores the user-inputed destination latitude and longitude
                     var lat2 = place2.geometry.location.lat();
                     document.getElementById("place2Lat").value = lat2;
                     var lng2 = place2.geometry.location.lng();
                     document.getElementById("place2Lng").value = lng2;
+                    
                     // If the user enters the same input for the start point and destination, throw an error
                     if (lat1 = lat2 && lng1 == lng2) {
                       map.removeLayer(start_marker);
@@ -61,6 +67,7 @@
                           `ERROR! Chosen start location and end location are the same!`
                       );
 		            }
+                    
                     var end_location = [lat2, lng2];
                     map.flyTo(end_location, 15);
                     L.marker(end_location).addTo(map);
@@ -74,6 +81,7 @@
                   map.flyTo([lat1, lng1], 15);
                 });
             }
+            
             google.maps.event.addDomListener(window, 'load', initialize);
         </script>
     
