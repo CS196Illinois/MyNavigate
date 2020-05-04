@@ -1,212 +1,223 @@
 <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+    
+        <title>MyNavigate</title>
+        <link rel="icon" href="img/icon.png">
+    
+        <!-- Custom styles for this template -->
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <link href="css/crimeMap.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap" rel="stylesheet">
+    
+        <!-- Import map information -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
+        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+    
+        <!--Applies Google autofill on start point and destination input label (both created in <div class = "location">)-->
+        <!--Places a marker and makes the user's map "fly" to the entered start point and destinaton-->
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCoPdq7VqBX2WU0ZRWjmLqtTVTe00qN3o&libraries=places"></script>
+        <script>
+            function initialize() {
+                var input = document.getElementById('searchTextStart');
+                var autocomplete = new google.maps.places.Autocomplete(input);
+                //lat1 and lng1 default location set to be campus center: Illini Union = 40.1092101, -88.2294165
+                var lat1 = 40.1092101;
+                var lng1 = -88.2294165;
+                var lat2, lng2;
+                google.maps.event.addListener(autocomplete, 'place_changed', function() {
+                    var place1 = autocomplete.getPlace();
+                    var name1 = place1.name;
+                    //Gathers and stores the user-inputed starting latitude and longitude
+                    var lat1 = place1.geometry.location.lat();
+                    document.getElementById("place1Lat").value = lat1;
+                    var lng1 = place1.geometry.location.lng();
+                    document.getElementById("place1Lng").value = lng1;
+                    var start_location = [lat1, lng1];
+                    map.flyTo(start_location, 15);
+                    L.marker(start_location).addTo(map);
+                });
+    
+                var input1 = document.getElementById('searchTextDestination');
+                var autocomplete1 = new google.maps.places.Autocomplete(input1);
+                google.maps.event.addListener(autocomplete1, 'place_changed', function() {
+                    var place2 = autocomplete1.getPlace();
+                    var name2 = place2.name;
+                    //Gathers and stores the user-inputed destination latitude and longitude
+                    var lat2 = place2.geometry.location.lat();
+                    document.getElementById("place2Lat").value = lat2;
+                    var lng2 = place2.geometry.location.lng();
+                    document.getElementById("place2Lng").value = lng2;
+                    // If the user enters the same input for the start point and destination, throw an error
+                    if (lat1 = lat2 && lng1 == lng2) {
+                      map.removeLayer(start_marker);
+                      throw new Error(
+                          `ERROR! Chosen start location and end location are the same!`
+                      );
+		                }
+                    var end_location = [lat2, lng2];
+                    map.flyTo(end_location, 15);
+                    L.marker(end_location).addTo(map);
+                    
+                    
+                    var bounds = L.latLngBounds([start_marker, destination_marker]);
+                    map.fitBounds(bounds)
+                });
+              
+              	button.addEventListener("click", function(){
+                  lat1 = 40.1092101;
+                  lng1 = -88.2294165;
+                  map.flyTo([lat1, lng1], 15);
+                });
+            }
+            google.maps.event.addDomListener(window, 'load', initialize);
+        </script>
+    
+        <!-- Import leaflet-locatecontrol information -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+    
+    </head>
 
-<head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-
-    <title>MyNavigate</title>
-    <link rel="icon" href="img/icon.png">
-
-    <!-- Custom styles for this template -->
-    <link href = "css/bootstrap.css" rel = "stylesheet">
-    <link href = "css/crimeMap.css" rel = "stylesheet">
-    <link href = "https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap" rel = "stylesheet">
-
-    <!-- Map Import information -->
-    <link rel = "stylesheet" href = "https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity = "sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
-    <script src = "https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity = "sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
-
-    <!-- Google autofill information-->
-    <script type = "text/javascript" src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyCCoPdq7VqBX2WU0ZRWjmLqtTVTe00qN3o&libraries=places"></script>
-    <script>
-        function initialize() {
-            var input = document.getElementById('searchTextStart');
-            var autocomplete = new google.maps.places.Autocomplete(input);
-	    //lat1 and lng1 default location set to be campus center: Illini Union = 40.1092101, -88.2294165
-            var lat1 = 40.1092101;
-            var lng1 = -88.2294165;
-            var lat2, lng2;
-            google.maps.event.addListener(autocomplete, 'place_changed', function() {
-                var place1 = autocomplete.getPlace();
-                var name1 = place1.name;
-           	lat1 = place1.geometry.location.lat();
-                lng1 = place1.geometry.location.lng();
-                var start_location = [lat1, lng1];
-                map.flyTo(start_location, 15);
-		start_marker = new L.marker(start_location).addTo(map);
-            });
-
-            var input1 = document.getElementById('searchTextDestination');
-            var autocomplete1 = new google.maps.places.Autocomplete(input1);
-            google.maps.event.addListener(autocomplete1, 'place_changed', function() {
-                var place2 = autocomplete1.getPlace();
-                var name2 = place2.name;
-                lat2 = place2.geometry.location.lat();
-                lng2 = place2.geometry.location.lng();
-		//if start = end, removes marker and throws an error
-                if (lat1 = lat2 && lng1 == lng2) {
-                    map.removeLayer(start_marker);
-                    throw new Error(
-                        `ERROR! Chosen start location and end location are the same!`
-                    );
-		}
-                var end_location = [lat2, lng2];
-                map.flyTo(end_location, 15);
-		destination_marker = new L.marker(end_location).addTo(map);
-                var bounds = L.latLngBounds([start_marker, destination_marker]);
-                map.fitBounds(bounds)
-            });
-		
-	    button.addEventListener("click", function(){
-                lat1 = 40.1092101;
-                lng1 = -88.2294165;
-                map.flyTo([lat1, lng1], 15);
-            });
-        }
-        google.maps.event.addDomListener(window, 'load', initialize);
-    </script>
-
-    <!-- Import leaflet-locatecontrol information -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
-
-</head>
-
-<body id="page-top">
-    <h1>
-        <div class="logo">
-            <img src="img/logo.png" alt="logo" />
-        </div>
-	    
-	<div class="description">
-		<p>Our crime map gives you the safest route for your journey.</p>
-		<p>Just input your start and end location and let our algorithm take care of the rest :)</p>
-	</div>
-
-        <div class="location">
-            <div class="start-location">
-                <form class="form-inline my-2 my-lg-0">
-                    <label id="destination-message">Select start point:</label>
-                    <input id="searchTextStart" class="form-control mr-sm-2" type="text" placeholder="Search for start point" autocomplete="on" runat="server">
-                    <!-- <button class="btn btn-light my-2 my-sm-0" type="submit">Search</button> -->
-                    <input type="hidden" id="place1" name="place1" />
-                    <input type="hidden" id="place1Lat" name="place1Lat" />
-                    <input type="hidden" id="place1Lng" name="place1Lng" />
-                </form>
+    <body id="page-top">
+        <h1>
+            <!--Adds website logo to the header-->
+            <div class="logo">
+                <img src="img/logo.png" alt="logo" />
+            </div>
+            
+            <!--Adds brief website purpose to the header-->
+            <div class="description">
+                <p>Our crime map gives you the safest route for your journey.</p>
+                <p>Just input your start and end location and let our algorithm take care of the rest :)</p>
             </div>
 
-            <div class="end-location">
-                <form class="form-inline my-2 my-lg-0">
-                    <label id="destination-message">Select destination:</label>
-                    <input id="searchTextDestination" class="form-control mr-sm-2" type="text" placeholder="Search for destination" autocomplete="on" runat="server">
-                    <!-- <button class="btn btn-light my-2 my-sm-0" type="submit">Search</button> -->
-                    <input type="hidden" id="place2" name="place2" />
-                    <input type="hidden" id="place2Lat" name="place2Lat" />
-                    <input type="hidden" id="place2Lng" name="place2Lng" />
-                </form>
+            <!--Form that takes the user to enter the start point-->
+            <!--When the button is cliced, the createPath() method is called-->
+            <div class="location">
+                <div class="start-location">
+                    <form class="form-inline my-2 my-lg-0">
+                        <label id="destination-message">Select start point:</label>
+                        <input id="searchTextStart" class="form-control mr-sm-2" type="text" placeholder="Search for start point" autocomplete="on" runat="server">
+                        <!-- <button class="btn btn-light my-2 my-sm-0" type="submit">Search</button> -->
+                        <input type="hidden" id="place1Lat" name="place1Lat" />
+                        <input type="hidden" id="place1Lng" name="place1Lng" />
+                    </form>
+                </div>
+
+                <div class="end-location">
+                    <form class="form-inline my-2 my-lg-0">
+                        <label id="destination-message">Select destination:</label>
+                        <input id="searchTextDestination" class="form-control mr-sm-2" type="text" placeholder="Search for destination" autocomplete="on" runat="server">
+                        <button class="btn btn-light my-2 my-sm-0" type="button" onclick="createPath()" >Search</button>
+                        <input type="hidden" id="place2Lat" name="place2Lat" />
+                        <input type="hidden" id="place2Lng" name="place2Lng" />
+                    </form>
+                </div>
+              	<button class="button">Reset Location</button>
             </div>
-	    <button class="button">Reset Location</button>
-        </div>
-    </h1>
+        </h1>
 
-    <!--The div element for the map -->
-    <div id="mapid"></div>
-    <script>
-        var map = L.map('mapid').setView([
-            40.1092101, -88.2294165
-        ], 13);
+        <!--The div element for the map -->
+        <div id="mapid"></div>
+        <script>
+            // Set up map using Leaflet
+            var map = L.map('mapid').setView([
+                40.1092101, -88.2294165
+            ], 13);
 
-        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-            maxZoom: 18,
-            id: 'mapbox/streets-v11',
-            tileSize: 512,
-            zoomOffset: -1,
-            accessToken: 'pk.eyJ1Ijoid2VsYnltIiwiYSI6ImNrOHhmZ2cyZzBqanEzbXJ6b3BpaHhicHIifQ.5osNmEEJ_7PkwM5ADpkayg'
-        }).addTo(map);
+            L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                maxZoom: 18,
+                id: 'mapbox/streets-v11',
+                tileSize: 512,
+                zoomOffset: -1,
+                accessToken: 'pk.eyJ1Ijoid2VsYnltIiwiYSI6ImNrOHhmZ2cyZzBqanEzbXJ6b3BpaHhicHIifQ.5osNmEEJ_7PkwM5ADpkayg'
+            }).addTo(map);
 
-        var lc = L.control.locate({
-            setView: 'always'
-        }).addTo(map);
+            var lc = L.control.locate({
+                setView: 'always'
+            }).addTo(map);
 
-        lc.start();
+            lc.start();
 
-        var popup = L.popup();
+            var popup = L.popup();
 
-        function onMapClick(e) {
-            popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(map);
-        }
+            function onMapClick(e) {
+                popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(map);
+            }
 
-        map.on('click', onMapClick);
+            map.on('click', onMapClick);
 
-        //Uncomment later
-/*     // Must enable changing the url depending on location and dates
-    // Configure parameters for api request
-        // Illini Union coordinates = 40.1092101, -88.2294165
-        var latstring = 40.1092;
-        var lonstring = -88.2294;
-	// Distance (miles)
-        var distance = 7000;
-	// Offset of time before current (hours)
-        var offset = 1000 * (1000*60*60);
-   // Link for the processing of parameters into request
-        var d = new Date();
-        var datetime_end = d.toISOString();
-        var datetwo = new Date(d - offset);
-        var datetime_ini = datetwo.toISOString();
-        var url = "https://api.crimeometer.com/v1/incidents/raw-data?lat=" + latstring.toString() + "&lon=" + lonstring.toString() + "&distance=" 
-                + distance.toString() + "mi&datetime_ini=" + datetime_ini + "&datetime_end=" + datetime_end;
-        var api_key = 'k3RAzKN1Ag14xTPlculT39RZb38LGgsG8n27ZycG';
+            // Must enable changing the url depending on location and dates
+            // Configure parameters for Crimeometer API request
+            // Illini Union coordinates = (40.1092101, -88.2294165)
+            var latstring = 40.1092;
+            var lonstring = -88.2294;
+            // Distance (miles)
+            var distance = 7000;
+            // Offset of time before current (hours)
+            var offset = 1000 * (1000*60*60);
+            // Link for the processing of parameters into a GET request
+            var d = new Date();
+            var datetime_end = d.toISOString();
+            var datetwo = new Date(d - offset);
+            var datetime_ini = datetwo.toISOString();
+            var url = "https://api.crimeometer.com/v1/incidents/raw-data?lat=" + latstring.toString() + "&lon=" + lonstring.toString() + "&distance=" 
+                    + distance.toString() + "mi&datetime_ini=" + datetime_ini + "&datetime_end=" + datetime_end;
+            var api_key = 'k3RAzKN1Ag14xTPlculT39RZb38LGgsG8n27ZycG';
+            var latitudes = [];
+            var longitudes = [];
+            function sendRequest(url) {
+                // Making an XML request
+                var request = new XMLHttpRequest();
+                request.open('GET', url);
+                request.setRequestHeader('Content-Type', 'application/json');
+                request.setRequestHeader('x-api-key', api_key);
 
-        function sendRequest(url) {
-            var lat = [];
-            var long = [];
-            // Making an XML request
-            var request = new XMLHttpRequest();
-            request.open('GET', url);
-            request.setRequestHeader('Content-Type', 'application/json');
-            request.setRequestHeader('x-api-key', api_key);
-
-            var toReturn = undefined;
-
-            // Handles the response from the request
-            request.onreadystatechange = function() {
-                if (this.readyState === 4) {
-                    // Alerts and log-printing for convenience temporarily:
-                    // alert("Working")
-                    // alert(this.responseText)
-                    console.log('Status:', this.status);
-                    console.log('Headers:', this.getAllResponseHeaders());
-                    console.log('Body:', this.responseText);
-                    toReturn = this.responseText;
-                    // alert("OSRC end");
-                    var toReturn = JSON.parse(this.responseText);
-                    for (var i = 0; i < toReturn.incidents.length; i++) {
-                        lat.push(toReturn.incidents[i].incident_latitude);
-                        long.push(toReturn.incidents[i].incident_longitude);
+                // Handles the response from the GET request
+                request.onreadystatechange = function() {
+                    if (this.readyState === 4) {
+                        // Alerts and log-printing for convenience temporarily:
+                        console.log('Status:', this.status);
+                        console.log('Headers:', this.getAllResponseHeaders());
+                        console.log('Body:', this.responseText);
+                        // Parses results into a JSON object 
+                        // Stores the latitudes and longitudes of each crime into latitudes[] and longitudes[] respectively
+                        var toReturn = this.responseText;
+                        toReturn = JSON.parse(this.responseText);
+                        for (var i = 0; i < toReturn.incidents.length; i++) {
+                            latitudes.push(toReturn.incidents[i].incident_latitude);
+                            longitudes.push(toReturn.incidents[i].incident_longitude);
+                        }
+                        //Plots each crime point on the map
+                        for (var i = 0; i < latitudes.length; i++) {
+                            L.circle([latitudes[i], longitudes[i]]).addTo(map);
+                        }
                     }
-                    // alert(long.length);
-                    // alert(lat.length);
-                    for (var i = 0; i < lat.length; i++) {
-                        marker = new L.marker([lat[i], long[i]]).addTo(map);
-                    }
-                }
-            };
+                    //Creates buffer polygons based on the coordinates of each crime point using a function found in main.js
+                    window.crimePointsToPolygons(latitudes, longitudes);
+                };
 
-            request.send();
-            // alert(toReturn + "is toReturn");
+                request.send();        
+            }
 
-        }
+            var value = sendRequest(url);
+            //Function for creating route with user-inputted start and destination that also avoids areas with recent crime
+            function createPath() {
+                var startLat = document.getElementById("place1Lat").value;
+                var startLng = document.getElementById("place1Lng").value;
+                var endLat = document.getElementById("place2Lat").value;
+                var endLng = document.getElementById("place2Lng").value;
+                window.createRoute(startLat, startLng, endLat, endLng);
+            }
+        </script>
 
-        var value = sendRequest(url);
-        // alert(value); */
-
-    </script>
-
-    <!--Creates route that avoids points of crime. See main.js for implementation-->
-    <script src="bundle.js"></script>
-</body>
+        <!--Contains functions for creating buffer polygons and route base on them.-->
+        <!--See main.js for implementation-->
+        <script type="text/javascript" src="bundle1.js"></script>
+    </body>
 </html>

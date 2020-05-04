@@ -15,7 +15,8 @@ var myStyle = {
     "weight": 5
 };
 
-//Replace later with data from JSON file
+// The free version of Crimeometer API contains limited data points
+// Generated sample data in a similar format to Crimeomter to test the app in the Urbana-Champaign area
 var sampleCrimeData = {
     "incidents": [
         {
@@ -54,17 +55,20 @@ var sampleCrimeData = {
  * @param radius in meters
  * @param numberofEdges polygon resembles more of a circle as this value increases
  */
- function createBufferPolygons(latitude, longitude) {
+ function createBufferPolygon(latitude, longitude) {
      let coordinates = [longitude, latitude];
      let radius = 20;
      let numberOfEdges = 20;
      return circleToPolygon(coordinates, radius, numberOfEdges);
  }
 
-//Plots each point on the map
-//Creates 20 meter buffer around each crime point and stores in a MultiPolygon GeoJSON object
+// Plots and creates 20 meter buffer around each sampleCrimeData entry and stores in the bufferPolygons MultiPolygon GeoJSON object
+var bufferPolygons = {
+    "type": "MultiPolygon",
+    "coordinates": []
+}
+
 var incidents = sampleCrimeData.incidents;
-var test = new Array();
 var bufferPolygons = {
     "type": "MultiPolygon",
     "coordinates": []
@@ -76,42 +80,66 @@ for (i = 0; i < incidents.length; i++) {
     L.circle([latitude, longitude], {
         style:myStyle
     }).addTo(map);
-    let buffPolyCoordinates = createBufferPolygons(latitude, longitude).coordinates;
+    let buffPolyCoordinates = createBufferPolygon(latitude, longitude).coordinates;
     bufferPolygons.coordinates.push(buffPolyCoordinates);
 }
 
-//Creates route with a POST request to OpenRouteServices
-let request = new XMLHttpRequest();
-
-var url = "https://api.openrouteservice.org/v2/directions/foot-walking/geojson";
-request.open('POST', url);
-
-request.setRequestHeader('Accept', 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8');
-request.setRequestHeader('Content-Type', 'application/json');
-request.setRequestHeader('Authorization', '5b3ce3597851110001cf6248b365d96ecb99476a8e3a4ca7d24de70f');
-
-request.onreadystatechange = function () {
-    if (this.readyState === 4) {
-        console.log('Status:', this.status);
-        console.log('Headers:', this.getAllResponseHeaders());
-        console.log('Body:', this.responseText);
-        //Plot route on map
-        var route = JSON.parse(this.responseText);
-        L.geoJSON(route).addTo(map);
+/**
+ * Creates 20 meter buffer around each crime point and stores in the bufferPolygons MultiPolygon GeoJSON object
+ * @param latitudes array of crime point latitudes
+ * @param longitudes array of crime point longitudes
+ */
+window.crimePointsToPolygons = function(latitudes, longitudes) {
+    for(i = 0; i < latitudes.length; i++) {
+        let latitude = latitudes[i];
+        let longitude = longitudes[i];
+        let buffPolyCoordinates = createBufferPolygon(latitude, longitude).coordinates;
+        bufferPolygons.coordinates.push(buffPolyCoordinates);
     }
-};
+    console.log(bufferPolygons);
+}
 
-//Set start and end points of travel (user-inputted)
-let pathing_restrictions = {
-    "coordinates": [[-88.235956, 40.096259],[-88.218870, 40.110620]],
-    "options":{
-    "avoid_polygons": bufferPolygons
-    },
-    format: 'geojson'
-};
-const body = JSON.stringify(pathing_restrictions);
+/**
+ * Creates openrouteservice POST request to construct an FeatureCollection GeoJSON object that represents 
+ * the path from the user-inputed start point to destination that also avoids polygons that represent areas with
+ * past crime
+ * @param startLat start point latitude
+ * @param startLng start point longitude
+ * @param endLat destination latitude
+ * @param endLng destination longitude
+ */
+window.createRoute = function(startLat, startLng, endLat, endLng) {
+    let request = new XMLHttpRequest();
 
-request.send(body);
+    var url = "https://api.openrouteservice.org/v2/directions/foot-walking/geojson";
+    request.open('POST', url);
+
+    request.setRequestHeader('Accept', 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8');
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.setRequestHeader('Authorization', '5b3ce3597851110001cf6248b365d96ecb99476a8e3a4ca7d24de70f');
+
+    request.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            console.log('Status:', this.status);
+            console.log('Headers:', this.getAllResponseHeaders());
+            console.log('Body:', this.responseText);
+            //Plot route on map
+            var route = JSON.parse(this.responseText);
+            L.geoJSON(route).addTo(map);
+        }
+    };
+    let pathing_restrictions = {
+        "coordinates": [[startLng, startLat],[endLng, endLat]],
+        "options":{
+        "avoid_polygons": bufferPolygons
+        },
+        format: 'geojson'
+    };
+    const body = JSON.stringify(pathing_restrictions);
+    
+    request.send(body);
+}
+
 },{"circle-to-polygon":2}],2:[function(require,module,exports){
 "use strict";
 function toRadians(angleInDegrees) {
